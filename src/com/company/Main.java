@@ -4,6 +4,18 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+         System.out.println("Starting...");
+
+         JFrame frame = new JFrame("Demo Frame");
+         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         GUI myGUI = new GUI(300, 150);
+         frame.add(myGUI);
+         frame.pack();
+         frame.setVisible(true);
+         System.out.println("Finished.");
+
+         //MenuExample m = new MenuExample();
+
         System.out.println("Wacky cool title");
         System.out.println("----------------");
         System.out.println("Hello user!");
