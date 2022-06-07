@@ -37,4 +37,8 @@ public class Event {
         myEvent.write(details);
     }
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/master
