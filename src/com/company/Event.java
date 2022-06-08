@@ -36,9 +36,4 @@ public class Event {
         myEvent.write(time);
         myEvent.write(details);
     }
-
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> origin/master
