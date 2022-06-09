@@ -6,27 +6,29 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MainMenu extends JPanel implements ActionListener, DocumentListener{
+public class EntryMenu extends JPanel implements ActionListener, DocumentListener {
     // canvas for other GUI widgets
     JButton button1;
     JButton button2;
 
-    public MainMenu(int width, int height) {
-        System.out.println("SEQUENCE: GUI Constructor");
-        this.setPreferredSize(new Dimension(width, height));
+    public EntryMenu() {
+        JFrame frame = new JFrame("Demo Frame");
+        frame.setPreferredSize(new Dimension(300, 150));
         setLayout(null);
+        frame.pack();
+        frame.setVisible(true);
 
-        JLabel heading = new JLabel("Main menu");
-        JLabel underline = new JLabel("----------------");
-        heading.setBounds(0,0, 200, 40);
+        JLabel heading = new JLabel("Entry menu");
+        JLabel underline = new JLabel("-------------------");
+        heading.setBounds(0, 0, 200, 40);
         underline.setBounds(0, 5, 200, 40);
         add(heading);
         add(underline);
 
         button1 = new JButton("Entries");
-        button1.setBounds(0,40, 100, 40);
+        button1.setBounds(0, 40, 100, 40);
         button2 = new JButton("Events");
-        button2.setBounds(0,90, 100, 40);
+        button2.setBounds(0, 90, 100, 40);
         button1.addActionListener(this);
         button2.addActionListener(this);
         add(button1);
@@ -36,9 +38,9 @@ public class MainMenu extends JPanel implements ActionListener, DocumentListener
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand() == "Entries") {
-            EntryMenu eMenu = new EntryMenu();
-        } else if (e.getActionCommand() == "Events"){
+        if (e.getActionCommand() == "B1") {
+            System.out.println("B1");
+        } else if (e.getActionCommand() == "B2") {
             System.out.println("click! " + e.getActionCommand());
         } else if (e.getActionCommand().equals("Graph results")) {
             System.out.println("click");
@@ -62,3 +64,4 @@ public class MainMenu extends JPanel implements ActionListener, DocumentListener
     }
 
 }
+
