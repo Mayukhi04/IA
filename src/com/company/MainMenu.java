@@ -35,11 +35,11 @@ public class MainMenu extends JPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand() == "Entries") {
+        if (e.getActionCommand().equals("Entries")) {
             removeAll();
             repaint();
             EntryMenu eMenu = new EntryMenu();
-        } else if (e.getActionCommand() == "Events"){
+        } else if (e.getActionCommand().equals("Events")){
             System.out.println("click! " + e.getActionCommand());
         } else if (e.getActionCommand().equals("Graph results")) {
             System.out.println("click");

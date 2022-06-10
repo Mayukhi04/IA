@@ -44,9 +44,9 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand() == "B1") {
+        if (e.getActionCommand().equals("B1")) {
             System.out.println("B1");
-        } else if (e.getActionCommand() == "B2") {
+        } else if (e.getActionCommand().equals("B2")) {
             System.out.println("click! " + e.getActionCommand());
         } else if (e.getActionCommand().equals("Graph results")) {
             System.out.println("click");
