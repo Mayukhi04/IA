@@ -1,12 +1,10 @@
 package com.company;
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MainMenu extends JPanel implements ActionListener, DocumentListener{
+public class MainMenu extends JPanel implements ActionListener{
     // canvas for other GUI widgets
     JButton button1;
     JButton button2;
@@ -23,6 +21,7 @@ public class MainMenu extends JPanel implements ActionListener, DocumentListener
         add(heading);
         add(underline);
 
+
         button1 = new JButton("Entries");
         button1.setBounds(0,40, 100, 40);
         button2 = new JButton("Events");
@@ -37,6 +36,8 @@ public class MainMenu extends JPanel implements ActionListener, DocumentListener
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand() == "Entries") {
+            removeAll();
+            repaint();
             EntryMenu eMenu = new EntryMenu();
         } else if (e.getActionCommand() == "Events"){
             System.out.println("click! " + e.getActionCommand());
@@ -44,21 +45,6 @@ public class MainMenu extends JPanel implements ActionListener, DocumentListener
             System.out.println("click");
             Basic test = new Basic(300, 300);
         }
-    }
-
-    @Override
-    public void insertUpdate(DocumentEvent e) {
-        System.out.println("insert");
-    }
-
-    @Override
-    public void removeUpdate(DocumentEvent e) {
-        System.out.println("removed");
-    }
-
-    @Override
-    public void changedUpdate(DocumentEvent e) {
-        System.out.println("changed");
     }
 
 }

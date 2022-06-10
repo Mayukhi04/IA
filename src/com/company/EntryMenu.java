@@ -10,6 +10,7 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
     // canvas for other GUI widgets
     JButton button1;
     JButton button2;
+    JButton button3;
 
     public EntryMenu() {
         JFrame frame = new JFrame("Demo Frame");
@@ -17,22 +18,27 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
         setLayout(null);
         frame.pack();
         frame.setVisible(true);
+        frame.setLayout(null);
 
         JLabel heading = new JLabel("Entry menu");
-        JLabel underline = new JLabel("-------------------");
+        JLabel underline = new JLabel("-----------------");
         heading.setBounds(0, 0, 200, 40);
         underline.setBounds(0, 5, 200, 40);
-        add(heading);
-        add(underline);
+        frame.add(heading);
+        frame.add(underline);
 
-        button1 = new JButton("Entries");
-        button1.setBounds(0, 40, 100, 40);
-        button2 = new JButton("Events");
-        button2.setBounds(0, 90, 100, 40);
+        button1 = new JButton("Write a new entry");
+        button1.setBounds(0, 40, 200, 40);
+        button2 = new JButton("View previous entries");
+        button2.setBounds(0, 90, 200, 40);
+        button3 = new JButton("Main menu");
+        button3.setBounds(0, 140, 200, 40);
         button1.addActionListener(this);
         button2.addActionListener(this);
-        add(button1);
-        add(button2);
+        button3.addActionListener(this);
+        frame.add(button1);
+        frame.add(button2);
+        frame.add(button3);
 
     }
 
