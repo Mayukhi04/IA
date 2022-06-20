@@ -39,11 +39,10 @@ public class MainMenu extends JPanel implements ActionListener{
             removeAll();
             repaint();
             EntryMenu eMenu = new EntryMenu();
-        } else if (e.getActionCommand().equals("Events")){
-            System.out.println("click! " + e.getActionCommand());
-        } else if (e.getActionCommand().equals("Graph results")) {
-            System.out.println("click");
-            Basic test = new Basic(300, 300);
+        } else if (e.getActionCommand().equals("Events")) {
+            removeAll();
+            repaint();
+            EventMenu eMenu = new EventMenu();
         }
     }
 
