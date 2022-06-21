@@ -13,6 +13,7 @@ public class MainMenu extends JPanel implements ActionListener{
         System.out.println("SEQUENCE: GUI Constructor");
         this.setPreferredSize(new Dimension(width, height));
         setLayout(null);
+        //this.setVisible(true);
 
         JLabel heading = new JLabel("Main menu");
         JLabel underline = new JLabel("----------------");
@@ -35,13 +36,10 @@ public class MainMenu extends JPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        //this.setVisible(false);
         if (e.getActionCommand().equals("Entries")) {
-            removeAll();
-            repaint();
             EntryMenu eMenu = new EntryMenu();
         } else if (e.getActionCommand().equals("Events")) {
-            removeAll();
-            repaint();
             EventMenu eMenu = new EventMenu();
         }
     }

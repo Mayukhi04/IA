@@ -8,12 +8,12 @@ import java.awt.event.ActionListener;
 
 public class EntryMenu extends JPanel implements ActionListener, DocumentListener {
     // canvas for other GUI widgets
+    JFrame frame = new JFrame("Demo Frame");
     JButton button1;
     JButton button2;
     JButton button3;
 
     public EntryMenu() {
-        JFrame frame = new JFrame("Demo Frame");
         frame.setPreferredSize(new Dimension(300, 250));
         setLayout(null);
         frame.pack();
@@ -44,17 +44,13 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        frame.setVisible(false);
         if (e.getActionCommand().equals("Write a new entry")) {
-            System.out.println("click!");
+            System.out.println("New entry!");
         } else if (e.getActionCommand().equals("View previous entries")) {
-            System.out.println("click!");
+            System.out.println("Previous entries!");
         } else if (e.getActionCommand().equals("Main menu")) {
-            System.out.println("click!");
-            JFrame frame = new JFrame("Demo Frame");
-            MainMenu menu = new MainMenu(300, 150);
-            frame.add(menu);
-            frame.pack();
-            frame.setVisible(true);
+            System.out.println("Main menu!");
         }
     }
 
