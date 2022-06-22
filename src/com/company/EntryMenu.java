@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 
 public class EntryMenu extends JPanel implements ActionListener, DocumentListener {
     // canvas for other GUI widgets
-    JFrame frame = new JFrame("Demo Frame");
+    JFrame frame = new JFrame("Entry Menu");
     JButton button1;
     JButton button2;
     JButton button3;

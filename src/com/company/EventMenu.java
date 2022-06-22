@@ -8,55 +8,42 @@ import java.awt.event.ActionListener;
 
 public class EventMenu extends JPanel implements ActionListener, DocumentListener {
     // canvas for other GUI widgets
-    JFrame mainFrame = new JFrame("Demo Frame");
-    JButton button1;
-    JButton button2;
-    JButton button3;
+    JFrame EventFrame = new JFrame("Event Menu");
+    JFrame createEventFrame = new JFrame("Create New Event");
+    JFrame viewEventsFrame = new JFrame("View Events");
 
     public EventMenu() {
-        mainFrame.setPreferredSize(new Dimension(300, 250));
+        EventFrame.setPreferredSize(new Dimension(300, 250));
         setLayout(null);
-        mainFrame.pack();
-        mainFrame.setVisible(true);
-        mainFrame.setLayout(null);
+        EventFrame.pack();
+        EventFrame.setVisible(true);
+        EventFrame.setLayout(null);
 
         JLabel heading = new JLabel("Event menu");
         JLabel underline = new JLabel("-----------------");
         heading.setBounds(0, 0, 200, 40);
         underline.setBounds(0, 5, 200, 40);
-        mainFrame.add(heading);
-        mainFrame.add(underline);
+        EventFrame.add(heading);
+        EventFrame.add(underline);
 
-        button1 = new JButton("Create a new event");
+        JButton button1 = new JButton("Create a new event");
         button1.setBounds(0, 40, 200, 40);
-        button2 = new JButton("View all events");
-        button2.setBounds(0, 90, 200, 40);
-        button3 = new JButton("Main menu");
-        button3.setBounds(0, 140, 200, 40);
         button1.addActionListener(this);
+        EventFrame.add(button1);
+
+        JButton button2 = new JButton("View all events");
+        button2.setBounds(0, 90, 200, 40);
         button2.addActionListener(this);
+        EventFrame.add(button2);
+
+        JButton button3 = new JButton("Main menu");
+        button3.setBounds(0, 140, 200, 40);
         button3.addActionListener(this);
-        mainFrame.add(button1);
-        mainFrame.add(button2);
-        mainFrame.add(button3);
+        EventFrame.add(button3);
 
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        mainFrame.setVisible(false);
-        if (e.getActionCommand().equals("Create a new event")) {
-            System.out.println("New event!");
-            createEvent();
-        } else if (e.getActionCommand().equals("View all events")) {
-            System.out.println("View events!");
-        } else if (e.getActionCommand().equals("Main menu")) {
-            System.out.println("Main menu!");
-        }
     }
 
     public void createEvent() {
-        JFrame createEventFrame = new JFrame("Demo Frame");
         createEventFrame.setPreferredSize(new Dimension(400, 300));
         setLayout(null);
         createEventFrame.pack();
@@ -64,7 +51,7 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         createEventFrame.setLayout(null);
 
         JLabel heading = new JLabel("Create new event");
-        JLabel underline = new JLabel("------------------------");
+        JLabel underline = new JLabel("-------------------------");
         heading.setBounds(0, 0, 200, 40);
         underline.setBounds(0, 5, 200, 40);
         createEventFrame.add(heading);
@@ -102,22 +89,78 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         notes.getDocument().addDocumentListener(this);
         createEventFrame.add(notes);
 
-        JLabel label5 = new JLabel("Create event: ");
-        label5.setBounds(0,130, 50, 40);
-        createEventFrame.add(label5);
-        JTextField create = new JTextField();
-        create.setBounds(40,135, 200, 80);
-        create.getDocument().addDocumentListener(this);
+        JButton create = new JButton ("Create event");
+        create.setBounds(250, 90, 125, 30);
+        create.addActionListener(this);
         createEventFrame.add(create);
 
-        JLabel label6 = new JLabel("Cancel: ");
-        label6.setBounds(0,130, 50, 40);
-        createEventFrame.add(label6);
-        JTextField cancel = new JTextField();
-        cancel.setBounds(40,135, 200, 80);
-        cancel.getDocument().addDocumentListener(this);
+        JButton cancel = new JButton ("Cancel");
+        cancel.setBounds(250,135, 125, 30);
+        cancel.addActionListener(this);
         createEventFrame.add(cancel);
 
+    }
+
+    public void viewEvents() {
+        viewEventsFrame.setPreferredSize(new Dimension(500, 350));
+        setLayout(null);
+        viewEventsFrame.pack();
+        viewEventsFrame.setVisible(true);
+        viewEventsFrame.setLayout(null);
+
+        JLabel heading = new JLabel("View events");
+        JLabel underline = new JLabel("------------------");
+        heading.setBounds(0, 0, 200, 40);
+        underline.setBounds(0, 5, 200, 40);
+        viewEventsFrame.add(heading);
+        viewEventsFrame.add(underline);
+
+        JLabel date = new JLabel("Date");
+        date.setBounds(0, 25, 200, 40);
+        viewEventsFrame.add(date);
+
+        JLabel time = new JLabel("Time");
+        time.setBounds(50, 25, 200, 40);
+        viewEventsFrame.add(time);
+
+        JLabel name = new JLabel("Event name");
+        name.setBounds(110, 25, 200, 40);
+        viewEventsFrame.add(name);
+
+        JLabel Notes = new JLabel("Notes");
+        Notes.setBounds(260, 25, 200, 40);
+        viewEventsFrame.add(Notes);
+
+        JButton returnToMenu = new JButton("Return to menu");
+        returnToMenu.setBounds(0, 250, 125, 40);
+        returnToMenu.addActionListener(this);
+        viewEventsFrame.add(returnToMenu);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        EventFrame.setVisible(false);
+        if (e.getActionCommand().equals("Create a new event")) {
+            System.out.println("New event!");
+            createEvent();
+        } else if (e.getActionCommand().equals("View all events")) {
+            System.out.println("View events!");
+            viewEvents();
+        } else if (e.getActionCommand().equals("Main menu")) {
+            System.out.println("Main menu!");
+        } else if (e.getActionCommand().equals("Create event")) {
+            System.out.println("Create event!");
+            createEventFrame.setVisible(false);
+            EventFrame.setVisible(true);
+        } else if (e.getActionCommand().equals("Cancel")) {
+            System.out.println("Cancel!");
+            createEventFrame.setVisible(false);
+            EventFrame.setVisible(true);
+        } else if (e.getActionCommand().equals("Return to menu")) {
+            System.out.println("Return to menu!");
+            viewEventsFrame.setVisible(false);
+            EventFrame.setVisible(true);
+        }
     }
 
     @Override
