@@ -8,38 +8,39 @@ import java.awt.event.ActionListener;
 
 public class EventMenu extends JPanel implements ActionListener, DocumentListener {
     // canvas for other GUI widgets
-    JFrame EventFrame = new JFrame("Event Menu");
+    JFrame eventFrame = new JFrame("Event Menu");
     JFrame createEventFrame = new JFrame("Create New Event");
     JFrame viewEventsFrame = new JFrame("View Events");
+    File eventFile = new File("events.txt");
 
     public EventMenu() {
-        EventFrame.setPreferredSize(new Dimension(300, 250));
+        eventFrame.setPreferredSize(new Dimension(300, 250));
         setLayout(null);
-        EventFrame.pack();
-        EventFrame.setVisible(true);
-        EventFrame.setLayout(null);
+        eventFrame.pack();
+        eventFrame.setVisible(true);
+        eventFrame.setLayout(null);
 
         JLabel heading = new JLabel("Event menu");
         JLabel underline = new JLabel("-----------------");
         heading.setBounds(0, 0, 200, 40);
         underline.setBounds(0, 5, 200, 40);
-        EventFrame.add(heading);
-        EventFrame.add(underline);
+        eventFrame.add(heading);
+        eventFrame.add(underline);
 
         JButton button1 = new JButton("Create a new event");
         button1.setBounds(0, 40, 200, 40);
         button1.addActionListener(this);
-        EventFrame.add(button1);
+        eventFrame.add(button1);
 
         JButton button2 = new JButton("View all events");
         button2.setBounds(0, 90, 200, 40);
         button2.addActionListener(this);
-        EventFrame.add(button2);
+        eventFrame.add(button2);
 
         JButton button3 = new JButton("Main menu");
         button3.setBounds(0, 140, 200, 40);
         button3.addActionListener(this);
-        EventFrame.add(button3);
+        eventFrame.add(button3);
 
     }
 
@@ -120,7 +121,7 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         viewEventsFrame.add(date);
 
         JLabel time = new JLabel("Time");
-        time.setBounds(50, 25, 200, 40);
+        time.setBounds(60, 25, 200, 40);
         viewEventsFrame.add(time);
 
         JLabel name = new JLabel("Event name");
@@ -128,18 +129,55 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         viewEventsFrame.add(name);
 
         JLabel Notes = new JLabel("Notes");
-        Notes.setBounds(260, 25, 200, 40);
+        Notes.setBounds(270, 25, 200, 40);
         viewEventsFrame.add(Notes);
 
         JButton returnToMenu = new JButton("Return to menu");
-        returnToMenu.setBounds(0, 250, 125, 40);
+        returnToMenu.setBounds(0, 260, 125, 40);
         returnToMenu.addActionListener(this);
         viewEventsFrame.add(returnToMenu);
+
+        int yCounter = 45;
+
+        for (int i = 0; i <10; i++) {
+            JLabel label = new JLabel("23/06/22");
+            label.setBounds(0, yCounter, 200, 40);
+            viewEventsFrame.add(label);
+            yCounter = yCounter + 20;
+        }
+
+        yCounter = 45;
+
+        for (int i = 0; i <10; i++) {
+            JLabel label = new JLabel("10:11");
+            label.setBounds(60, yCounter, 200, 40);
+            viewEventsFrame.add(label);
+            yCounter = yCounter + 20;
+        }
+
+        yCounter = 45;
+
+        for (int i = 0; i <10; i++) {
+            JLabel label = new JLabel("computer science lesson");
+            label.setBounds(110, yCounter, 1000, 40);
+            viewEventsFrame.add(label);
+            yCounter = yCounter + 20;
+        }
+
+        yCounter = 45;
+
+        for (int i = 0; i <10; i++) {
+            JLabel label = new JLabel("wow i'm making so much progress!!");
+            label.setBounds(270, yCounter, 1000, 40);
+            viewEventsFrame.add(label);
+            yCounter = yCounter + 20;
+        }
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        EventFrame.setVisible(false);
+        eventFrame.setVisible(false);
         if (e.getActionCommand().equals("Create a new event")) {
             System.out.println("New event!");
             createEvent();
@@ -151,15 +189,15 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         } else if (e.getActionCommand().equals("Create event")) {
             System.out.println("Create event!");
             createEventFrame.setVisible(false);
-            EventFrame.setVisible(true);
+            eventFrame.setVisible(true);
         } else if (e.getActionCommand().equals("Cancel")) {
             System.out.println("Cancel!");
             createEventFrame.setVisible(false);
-            EventFrame.setVisible(true);
+            eventFrame.setVisible(true);
         } else if (e.getActionCommand().equals("Return to menu")) {
             System.out.println("Return to menu!");
             viewEventsFrame.setVisible(false);
-            EventFrame.setVisible(true);
+            eventFrame.setVisible(true);
         }
     }
 
