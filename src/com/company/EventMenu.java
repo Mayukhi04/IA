@@ -137,10 +137,26 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         returnToMenu.addActionListener(this);
         viewEventsFrame.add(returnToMenu);
 
-        int yCounter = 45;
+        JButton upcoming = new JButton("Upcoming");
+        upcoming.setBounds(300, 265, 95, 30);
+        upcoming.addActionListener(this);
+        viewEventsFrame.add(upcoming);
 
-        for (int i = 0; i <10; i++) {
-            JLabel label = new JLabel("23/06/22");
+        JButton past = new JButton("Past");
+        past.setBounds(400, 265, 70, 30);
+        past.addActionListener(this);
+        viewEventsFrame.add(past);
+
+        displayEvents();
+    }
+
+    public void displayEventsWorks() {
+        int yCounter = 45;
+        File f = new File("events.txt");
+        int length = f.Length();
+
+        for (int i = 0; i <length; i++) {
+            JLabel label = new JLabel(f.readFileLine(0));
             label.setBounds(0, yCounter, 200, 40);
             viewEventsFrame.add(label);
             yCounter = yCounter + 20;
@@ -148,8 +164,8 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
 
         yCounter = 45;
 
-        for (int i = 0; i <10; i++) {
-            JLabel label = new JLabel("10:11");
+        for (int i = 0; i <length; i++) {
+            JLabel label = new JLabel(f.readFileLine(1));
             label.setBounds(60, yCounter, 200, 40);
             viewEventsFrame.add(label);
             yCounter = yCounter + 20;
@@ -157,8 +173,8 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
 
         yCounter = 45;
 
-        for (int i = 0; i <10; i++) {
-            JLabel label = new JLabel("computer science lesson");
+        for (int i = 0; i <length; i++) {
+            JLabel label = new JLabel(f.readFileLine(2));
             label.setBounds(110, yCounter, 1000, 40);
             viewEventsFrame.add(label);
             yCounter = yCounter + 20;
@@ -166,11 +182,43 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
 
         yCounter = 45;
 
-        for (int i = 0; i <10; i++) {
-            JLabel label = new JLabel("wow i'm making so much progress!!");
+        for (int i = 0; i <length; i++) {
+            JLabel label = new JLabel(f.readFileLine(3));
             label.setBounds(270, yCounter, 1000, 40);
             viewEventsFrame.add(label);
             yCounter = yCounter + 20;
+        }
+
+    }
+
+    public void displayEvents() {
+        int yCounter = 45;
+        File f = new File("events.txt");
+        int length = f.Length();
+        int eventCounter = 0;
+
+        for (int i = 0; i < length; i++) {
+            JLabel date = new JLabel(f.readFileLine(0 + eventCounter));
+            date.setBounds(0, yCounter, 200, 40);
+            viewEventsFrame.add(date);
+
+            JLabel time = new JLabel(f.readFileLine(1 + eventCounter));
+            time.setBounds(60, yCounter, 200, 40);
+            viewEventsFrame.add(time);
+
+            JLabel name = new JLabel(f.readFileLine(2 + eventCounter));
+            name.setBounds(110, yCounter, 1000, 40);
+            viewEventsFrame.add(name);
+
+            JLabel notes = new JLabel(f.readFileLine(3 + eventCounter));
+            notes.setBounds(270, yCounter, 1000, 40);
+            viewEventsFrame.add(notes);
+
+            yCounter = yCounter + 20;
+
+            if (!f.readFileLine(0 + eventCounter).equals("")) {
+                eventCounter = eventCounter + 4;
+            }
         }
 
     }

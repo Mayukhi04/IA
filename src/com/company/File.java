@@ -10,10 +10,12 @@ import java.util.ArrayList;
 class File {
     public static String fileName;
     public ArrayList<String> fileContents;
+    int counter = 0;
 
     public File(String fileName) {
         this.fileName = fileName;
         fileContents = new ArrayList<>();
+        readFile();
     }
 
     //read the entire file
@@ -23,7 +25,7 @@ class File {
             BufferedReader br = new BufferedReader(fr);
             String line = "";
 
-            int counter = 0;
+            counter = 0;
             fileContents.add(br.readLine());
 
             while (fileContents.get(counter) != null) {
@@ -42,6 +44,10 @@ class File {
     //read a specific line from a file
     public String readFileLine(int line) {
         return fileContents.get(line);
+    }
+
+    public int Length() {
+        return counter;
     }
 
     //write to the file
