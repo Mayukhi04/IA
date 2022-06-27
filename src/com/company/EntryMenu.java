@@ -12,6 +12,8 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
     JFrame createEntryFrame = new JFrame("Create Entry");
     JFrame viewEntriesFrame = new JFrame("View Entries");
 
+    File entryFile = new File("entries.txt");
+
     public EntryMenu() {
         entryFrame.setPreferredSize(new Dimension(300, 250));
         setLayout(null);
@@ -43,7 +45,7 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
 
     }
 
-    public void createEntry() {
+    public void createEntryMenu() {
         createEntryFrame.setPreferredSize(new Dimension(400, 300));
         setLayout(null);
         createEntryFrame.pack();
@@ -85,6 +87,10 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
 
     }
 
+    public void createEntry() {
+
+    }
+
     public void viewEntries() {
         viewEntriesFrame.setPreferredSize(new Dimension(500, 350));
         setLayout(null);
@@ -104,7 +110,7 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
         viewEntriesFrame.add(date);
 
         JLabel time = new JLabel("Time");
-        time.setBounds(50, 25, 200, 40);
+        time.setBounds(60, 25, 200, 40);
         viewEntriesFrame.add(time);
 
         JLabel mood = new JLabel("Overall mood");
@@ -122,19 +128,54 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
 
     }
 
+    public void displayEntries() {
+        int yCounter = 45;
+        int length = entryFile.Length();
+        int entryCounter = 0;
+
+        for (int i = 0; i < (length / 4); i++) {
+            JLabel date = new JLabel(entryFile.readFileLine(0 + entryCounter));
+            date.setBounds(0, yCounter, 200, 40);
+            viewEntriesFrame.add(date);
+
+            JLabel time = new JLabel(entryFile.readFileLine(1 + entryCounter));
+            time.setBounds(60, yCounter, 200, 40);
+            viewEntriesFrame.add(time);
+
+            JLabel mood = new JLabel(entryFile.readFileLine(2 + entryCounter));
+            mood.setBounds(110, yCounter, 1000, 40);
+            viewEntriesFrame.add(mood);
+
+            JLabel entry = new JLabel(entryFile.readFileLine(3 + entryCounter));
+            entry.setBounds(210, yCounter, 1000, 40);
+            viewEntriesFrame.add(entry);
+
+            yCounter = yCounter + 20;
+
+            if (entryCounter + 4 != length) {
+                entryCounter = entryCounter + 4;
+            }
+        }
+
+    }
+
+
+
     @Override
     public void actionPerformed(ActionEvent e) {
         entryFrame.setVisible(false);
         if (e.getActionCommand().equals("Write a new entry")) {
             System.out.println("New entry!");
-            createEntry();
+            createEntryMenu();
         } else if (e.getActionCommand().equals("View previous entries")) {
             System.out.println("View entries!");
             viewEntries();
+            displayEntries();
         } else if (e.getActionCommand().equals("Main menu")) {
             System.out.println("Main menu!");
         } else if (e.getActionCommand().equals("Create entry")) {
             System.out.println("Create entry!");
+            createEntry();
             createEntryFrame.setVisible(false);
             entryFrame.setVisible(true);
         } else if (e.getActionCommand().equals("Cancel")) {

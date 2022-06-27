@@ -13,6 +13,11 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
     JFrame viewEventsFrame = new JFrame("View Events");
     File eventFile = new File("events.txt");
 
+    JTextField title = new JTextField();
+    JTextField date = new JTextField();
+    JTextField time = new JTextField();
+    JTextField notes = new JTextField();
+
     public EventMenu() {
         eventFrame.setPreferredSize(new Dimension(300, 250));
         setLayout(null);
@@ -44,7 +49,7 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
 
     }
 
-    public void createEvent() {
+    public void createEventMenu() {
         createEventFrame.setPreferredSize(new Dimension(400, 300));
         setLayout(null);
         createEventFrame.pack();
@@ -61,7 +66,7 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         JLabel label1 = new JLabel("Title: ");
         label1.setBounds(0,40, 50, 40);
         createEventFrame.add(label1);
-        JTextField title = new JTextField();
+        title = new JTextField();
         title.setBounds(40,45, 200, 30);
         title.getDocument().addDocumentListener(this);
         createEventFrame.add(title);
@@ -69,7 +74,7 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         JLabel label2 = new JLabel("Date: ");
         label2.setBounds(0,85, 50, 40);
         createEventFrame.add(label2);
-        JTextField date = new JTextField();
+        date = new JTextField();
         date.setBounds(40,90, 80, 30);
         date.getDocument().addDocumentListener(this);
         createEventFrame.add(date);
@@ -77,7 +82,7 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         JLabel label3 = new JLabel("Time: ");
         label3.setBounds(125,85, 50, 40);
         createEventFrame.add(label3);
-        JTextField time = new JTextField();
+        time = new JTextField();
         time.setBounds(160,90, 80, 30);
         time.getDocument().addDocumentListener(this);
         createEventFrame.add(time);
@@ -85,7 +90,7 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         JLabel label4 = new JLabel("Notes: ");
         label4.setBounds(0,130, 50, 40);
         createEventFrame.add(label4);
-        JTextField notes = new JTextField();
+        notes = new JTextField();
         notes.setBounds(40,135, 200, 80);
         notes.getDocument().addDocumentListener(this);
         createEventFrame.add(notes);
@@ -99,6 +104,24 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         cancel.setBounds(250,135, 125, 30);
         cancel.addActionListener(this);
         createEventFrame.add(cancel);
+
+    }
+
+    public void createEvent() {
+        String eventDetails[] = new String[4];
+
+        eventDetails[0] = title.getText();
+        eventDetails[1] = date.getText();
+        eventDetails[2] = time.getText();
+        eventDetails[3] = notes.getText();
+
+        for (int i = 0; i < 4; i++) {
+            if (eventDetails[i].equals("")) {
+                eventFile.write("x");
+            } else {
+                eventFile.write(eventDetails[i]);
+            }
+        }
 
     }
 
@@ -147,76 +170,33 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         past.addActionListener(this);
         viewEventsFrame.add(past);
 
-        displayEvents();
-    }
-
-    public void displayEventsWorks() {
-        int yCounter = 45;
-        File f = new File("events.txt");
-        int length = f.Length();
-
-        for (int i = 0; i <length; i++) {
-            JLabel label = new JLabel(f.readFileLine(0));
-            label.setBounds(0, yCounter, 200, 40);
-            viewEventsFrame.add(label);
-            yCounter = yCounter + 20;
-        }
-
-        yCounter = 45;
-
-        for (int i = 0; i <length; i++) {
-            JLabel label = new JLabel(f.readFileLine(1));
-            label.setBounds(60, yCounter, 200, 40);
-            viewEventsFrame.add(label);
-            yCounter = yCounter + 20;
-        }
-
-        yCounter = 45;
-
-        for (int i = 0; i <length; i++) {
-            JLabel label = new JLabel(f.readFileLine(2));
-            label.setBounds(110, yCounter, 1000, 40);
-            viewEventsFrame.add(label);
-            yCounter = yCounter + 20;
-        }
-
-        yCounter = 45;
-
-        for (int i = 0; i <length; i++) {
-            JLabel label = new JLabel(f.readFileLine(3));
-            label.setBounds(270, yCounter, 1000, 40);
-            viewEventsFrame.add(label);
-            yCounter = yCounter + 20;
-        }
-
     }
 
     public void displayEvents() {
         int yCounter = 45;
-        File f = new File("events.txt");
-        int length = f.Length();
+        int length = eventFile.Length();
         int eventCounter = 0;
 
-        for (int i = 0; i < length; i++) {
-            JLabel date = new JLabel(f.readFileLine(0 + eventCounter));
+        for (int i = 0; i < (length / 4); i++) {
+            JLabel date = new JLabel(eventFile.readFileLine(0 + eventCounter));
             date.setBounds(0, yCounter, 200, 40);
             viewEventsFrame.add(date);
 
-            JLabel time = new JLabel(f.readFileLine(1 + eventCounter));
+            JLabel time = new JLabel(eventFile.readFileLine(1 + eventCounter));
             time.setBounds(60, yCounter, 200, 40);
             viewEventsFrame.add(time);
 
-            JLabel name = new JLabel(f.readFileLine(2 + eventCounter));
+            JLabel name = new JLabel(eventFile.readFileLine(2 + eventCounter));
             name.setBounds(110, yCounter, 1000, 40);
             viewEventsFrame.add(name);
 
-            JLabel notes = new JLabel(f.readFileLine(3 + eventCounter));
+            JLabel notes = new JLabel(eventFile.readFileLine(3 + eventCounter));
             notes.setBounds(270, yCounter, 1000, 40);
             viewEventsFrame.add(notes);
 
             yCounter = yCounter + 20;
 
-            if (!f.readFileLine(0 + eventCounter).equals("")) {
+            if (eventCounter + 4 != length) {
                 eventCounter = eventCounter + 4;
             }
         }
@@ -228,14 +208,16 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         eventFrame.setVisible(false);
         if (e.getActionCommand().equals("Create a new event")) {
             System.out.println("New event!");
-            createEvent();
+            createEventMenu();
         } else if (e.getActionCommand().equals("View all events")) {
             System.out.println("View events!");
             viewEvents();
+            displayEvents();
         } else if (e.getActionCommand().equals("Main menu")) {
             System.out.println("Main menu!");
         } else if (e.getActionCommand().equals("Create event")) {
             System.out.println("Create event!");
+            createEvent();
             createEventFrame.setVisible(false);
             eventFrame.setVisible(true);
         } else if (e.getActionCommand().equals("Cancel")) {
