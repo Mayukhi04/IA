@@ -35,9 +35,10 @@ class File {
             }
 
             br.close();
+            fr.close();
         }
         catch (IOException exception) {
-            System.out.println("Something went wrong noo");
+            System.out.println("Something went wrong");
         }
     }
 
@@ -61,7 +62,7 @@ class File {
             pw.close();
         }
         catch (IOException exception) {
-            System.out.println("Something went wrong noo");
+            System.out.println("Something went wrong");
         }
     }
 
@@ -71,8 +72,6 @@ class File {
             rf.seek(start);
             char letter = (char)rf.read();
             System.out.println(letter);
-
-            rf.close();
         }
         catch (IOException e) {
             e.printStackTrace();

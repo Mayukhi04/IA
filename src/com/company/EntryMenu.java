@@ -13,6 +13,8 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
     JFrame viewEntriesFrame = new JFrame("View Entries");
 
     File entryFile = new File("entries.txt");
+    JTextField mood = new JTextField();
+    JTextField entry = new JTextField();
 
     public EntryMenu() {
         entryFrame.setPreferredSize(new Dimension(300, 250));
@@ -62,7 +64,6 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
         JLabel label1 = new JLabel("Mood: ");
         label1.setBounds(0,40, 50, 40);
         createEntryFrame.add(label1);
-        JTextField mood = new JTextField();
         mood.setBounds(40,45, 200, 30);
         mood.getDocument().addDocumentListener(this);
         createEntryFrame.add(mood);
@@ -70,7 +71,6 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
         JLabel label2 = new JLabel("Entry: ");
         label2.setBounds(0,85, 50, 40);
         createEntryFrame.add(label2);
-        JTextField entry = new JTextField();
         entry.setBounds(40,90, 200, 150);
         entry.getDocument().addDocumentListener(this);
         createEntryFrame.add(entry);
@@ -88,6 +88,18 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
     }
 
     public void createEntry() {
+        String entryDetails[] = new String[2];
+
+        entryDetails[0] = mood.getText();
+        entryDetails[1] = entry.getText();
+
+        for (int i = 0; i < 2; i++) {
+            if (entryDetails[i].equals("")) {
+                entryFile.write("#");
+            } else {
+                entryFile.write(entryDetails[i]);
+            }
+        }
 
     }
 
@@ -134,19 +146,19 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
         int entryCounter = 0;
 
         for (int i = 0; i < (length / 4); i++) {
-            JLabel date = new JLabel(entryFile.readFileLine(0 + entryCounter));
+            JLabel date = new JLabel(entryFile.readFileLine(entryCounter));
             date.setBounds(0, yCounter, 200, 40);
             viewEntriesFrame.add(date);
 
-            JLabel time = new JLabel(entryFile.readFileLine(1 + entryCounter));
+            JLabel time = new JLabel(entryFile.readFileLine(entryCounter + 1));
             time.setBounds(60, yCounter, 200, 40);
             viewEntriesFrame.add(time);
 
-            JLabel mood = new JLabel(entryFile.readFileLine(2 + entryCounter));
+            JLabel mood = new JLabel(entryFile.readFileLine(entryCounter + 2));
             mood.setBounds(110, yCounter, 1000, 40);
             viewEntriesFrame.add(mood);
 
-            JLabel entry = new JLabel(entryFile.readFileLine(3 + entryCounter));
+            JLabel entry = new JLabel(entryFile.readFileLine(entryCounter + 3));
             entry.setBounds(210, yCounter, 1000, 40);
             viewEntriesFrame.add(entry);
 
@@ -158,8 +170,6 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
         }
 
     }
-
-
 
     @Override
     public void actionPerformed(ActionEvent e) {

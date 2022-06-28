@@ -66,7 +66,6 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         JLabel label1 = new JLabel("Title: ");
         label1.setBounds(0,40, 50, 40);
         createEventFrame.add(label1);
-        title = new JTextField();
         title.setBounds(40,45, 200, 30);
         title.getDocument().addDocumentListener(this);
         createEventFrame.add(title);
@@ -74,7 +73,6 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         JLabel label2 = new JLabel("Date: ");
         label2.setBounds(0,85, 50, 40);
         createEventFrame.add(label2);
-        date = new JTextField();
         date.setBounds(40,90, 80, 30);
         date.getDocument().addDocumentListener(this);
         createEventFrame.add(date);
@@ -82,7 +80,6 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         JLabel label3 = new JLabel("Time: ");
         label3.setBounds(125,85, 50, 40);
         createEventFrame.add(label3);
-        time = new JTextField();
         time.setBounds(160,90, 80, 30);
         time.getDocument().addDocumentListener(this);
         createEventFrame.add(time);
@@ -90,7 +87,6 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         JLabel label4 = new JLabel("Notes: ");
         label4.setBounds(0,130, 50, 40);
         createEventFrame.add(label4);
-        notes = new JTextField();
         notes.setBounds(40,135, 200, 80);
         notes.getDocument().addDocumentListener(this);
         createEventFrame.add(notes);
@@ -110,14 +106,14 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
     public void createEvent() {
         String eventDetails[] = new String[4];
 
-        eventDetails[0] = title.getText();
-        eventDetails[1] = date.getText();
-        eventDetails[2] = time.getText();
+        eventDetails[0] = date.getText();
+        eventDetails[1] = time.getText();
+        eventDetails[2] = title.getText();
         eventDetails[3] = notes.getText();
 
         for (int i = 0; i < 4; i++) {
             if (eventDetails[i].equals("")) {
-                eventFile.write("x");
+                eventFile.write("#");
             } else {
                 eventFile.write(eventDetails[i]);
             }
@@ -173,24 +169,26 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
     }
 
     public void displayEvents() {
+        eventFile.readFile();
+
         int yCounter = 45;
         int length = eventFile.Length();
         int eventCounter = 0;
 
         for (int i = 0; i < (length / 4); i++) {
-            JLabel date = new JLabel(eventFile.readFileLine(0 + eventCounter));
+            JLabel date = new JLabel(eventFile.readFileLine(eventCounter));
             date.setBounds(0, yCounter, 200, 40);
             viewEventsFrame.add(date);
 
-            JLabel time = new JLabel(eventFile.readFileLine(1 + eventCounter));
+            JLabel time = new JLabel(eventFile.readFileLine(eventCounter + 1));
             time.setBounds(60, yCounter, 200, 40);
             viewEventsFrame.add(time);
 
-            JLabel name = new JLabel(eventFile.readFileLine(2 + eventCounter));
+            JLabel name = new JLabel(eventFile.readFileLine(eventCounter + 2));
             name.setBounds(110, yCounter, 1000, 40);
             viewEventsFrame.add(name);
 
-            JLabel notes = new JLabel(eventFile.readFileLine(3 + eventCounter));
+            JLabel notes = new JLabel(eventFile.readFileLine(eventCounter + 3));
             notes.setBounds(270, yCounter, 1000, 40);
             viewEventsFrame.add(notes);
 

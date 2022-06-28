@@ -2,27 +2,23 @@
 11:12
 computer science
 lesson
-27/05/22
-9:50
-english ioc
-tss tev
 28/05/22
 12:35
 lunch
-x
-27/05/22
-9:50
-english ioc
-tss tev
-24/06/22
-11:12
-computer science
-lesson
-24/06/22
-11:12
-computer science
-lesson
-28/05/22
-12:35
-lunch
-x
+#
+28/06/22
+09:37
+event
+this should definitely work
+28/06/22
+09:42
+event pt2
+work?
+28/06/22
+09:48
+event pt 3
+pls work
+7908
+798
+event pt4
+#
