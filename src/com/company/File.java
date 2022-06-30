@@ -24,6 +24,7 @@ class File {
             FileReader fr = new FileReader(fileName);
             BufferedReader br = new BufferedReader(fr);
             String line = "";
+            fileContents.clear();
 
             counter = 0;
             fileContents.add(br.readLine());
@@ -59,7 +60,6 @@ class File {
         ) {
             pw.println(text);
             pw.flush();
-            pw.close();
         }
         catch (IOException exception) {
             System.out.println("Something went wrong");
