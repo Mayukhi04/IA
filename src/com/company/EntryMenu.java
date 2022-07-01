@@ -141,6 +141,8 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
     }
 
     public void displayEntries() {
+        entryFile.readFile();
+
         int yCounter = 45;
         int length = entryFile.Length();
         int entryCounter = 0;

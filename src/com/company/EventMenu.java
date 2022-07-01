@@ -13,6 +13,8 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
     JFrame viewEventsFrame = new JFrame("View Events");
     File eventFile = new File("events.txt");
 
+    String eventStatus = "all";
+
     JTextField title = new JTextField();
     JTextField date = new JTextField();
     JTextField time = new JTextField();
@@ -156,6 +158,11 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         returnToMenu.addActionListener(this);
         viewEventsFrame.add(returnToMenu);
 
+        JButton all = new JButton("All");
+        all.setBounds(225, 265, 70, 30);
+        all.addActionListener(this);
+        viewEventsFrame.add(all);
+
         JButton upcoming = new JButton("Upcoming");
         upcoming.setBounds(300, 265, 95, 30);
         upcoming.addActionListener(this);
@@ -175,30 +182,31 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         int length = eventFile.Length();
         int eventCounter = 0;
 
-        for (int i = 0; i < (length / 4); i++) {
-            JLabel date = new JLabel(eventFile.readFileLine(eventCounter));
-            date.setBounds(0, yCounter, 200, 40);
-            viewEventsFrame.add(date);
+        if (eventStatus.equals("all")) ; {
+            for (int i = 0; i < (length / 4); i++) {
+                JLabel date = new JLabel(eventFile.readFileLine(eventCounter));
+                date.setBounds(0, yCounter, 200, 40);
+                viewEventsFrame.add(date);
 
-            JLabel time = new JLabel(eventFile.readFileLine(eventCounter + 1));
-            time.setBounds(60, yCounter, 200, 40);
-            viewEventsFrame.add(time);
+                JLabel time = new JLabel(eventFile.readFileLine(eventCounter + 1));
+                time.setBounds(60, yCounter, 200, 40);
+                viewEventsFrame.add(time);
 
-            JLabel name = new JLabel(eventFile.readFileLine(eventCounter + 2));
-            name.setBounds(110, yCounter, 1000, 40);
-            viewEventsFrame.add(name);
+                JLabel name = new JLabel(eventFile.readFileLine(eventCounter + 2));
+                name.setBounds(110, yCounter, 1000, 40);
+                viewEventsFrame.add(name);
 
-            JLabel notes = new JLabel(eventFile.readFileLine(eventCounter + 3));
-            notes.setBounds(270, yCounter, 1000, 40);
-            viewEventsFrame.add(notes);
+                JLabel notes = new JLabel(eventFile.readFileLine(eventCounter + 3));
+                notes.setBounds(270, yCounter, 1000, 40);
+                viewEventsFrame.add(notes);
 
-            yCounter = yCounter + 20;
+                yCounter = yCounter + 20;
 
-            if (eventCounter + 4 != length) {
-                eventCounter = eventCounter + 4;
+                if (eventCounter + 4 != length) {
+                    eventCounter = eventCounter + 4;
+                }
             }
         }
-
     }
 
     @Override
@@ -226,6 +234,30 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
             System.out.println("Return to menu!");
             viewEventsFrame.setVisible(false);
             eventFrame.setVisible(true);
+        } else if (e.getActionCommand().equals("All")) {
+            System.out.println("All!");
+            eventStatus = "all";
+            viewEventsFrame.removeAll();
+            viewEvents();
+            displayEvents();
+            //viewEventsFrame.setVisible(false);
+            //upcomingFrame.setVisible(true);
+        } else if (e.getActionCommand().equals("Upcoming")) {
+            System.out.println("Upcoming!");
+            eventStatus = "upcoming";
+            viewEventsFrame.removeAll();
+            viewEvents();
+            displayEvents();
+            //viewEventsFrame.setVisible(false);
+            //upcomingFrame.setVisible(true);
+        } else if (e.getActionCommand().equals("Past")) {
+            System.out.println("Past!");
+            eventStatus = "past";
+            viewEventsFrame.removeAll();
+            viewEvents();
+            displayEvents();
+            //viewEventsFrame.setVisible(false);
+            //pastFrame.setVisible(true);
         }
     }
 
