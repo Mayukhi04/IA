@@ -10,27 +10,4 @@ lunch
 09:37
 event
 this should definitely work
-28/06/22
-09:42
-event pt2
-work?
-28/06/22
-09:48
-event pt 3
-pls work
-7908
-798
-event pt4
-#
-30/06/22
-09:59
-event pt 5
-this has to worjk
-11:03
-01/07/22
-event pt6
-i know for a fact this works
-#
-#
-#
-#
+

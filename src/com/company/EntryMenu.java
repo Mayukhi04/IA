@@ -5,6 +5,10 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 
 public class EntryMenu extends JPanel implements ActionListener, DocumentListener {
     // canvas for other GUI widgets
@@ -88,12 +92,22 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
     }
 
     public void createEntry() {
-        String entryDetails[] = new String[2];
+        String[] entryDetails = new String[4];
 
-        entryDetails[0] = mood.getText();
-        entryDetails[1] = entry.getText();
+        Date d = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
+        String currentDate = formatter.format(d);
 
-        for (int i = 0; i < 2; i++) {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+        LocalDateTime now = LocalDateTime.now();
+        String currentTime = dtf.format(now);
+
+        entryDetails[0] = currentDate;
+        entryDetails[1] = currentTime;
+        entryDetails[2] = mood.getText();
+        entryDetails[3] = entry.getText();
+
+        for (int i = 0; i < 4; i++) {
             if (entryDetails[i].equals("")) {
                 entryFile.write("#");
             } else {

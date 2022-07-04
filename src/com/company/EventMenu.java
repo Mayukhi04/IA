@@ -5,6 +5,11 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class EventMenu extends JPanel implements ActionListener, DocumentListener {
     // canvas for other GUI widgets
@@ -106,7 +111,7 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
     }
 
     public void createEvent() {
-        String eventDetails[] = new String[4];
+        String[]eventDetails = new String[4];
 
         eventDetails[0] = date.getText();
         eventDetails[1] = time.getText();
@@ -175,39 +180,96 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
 
     }
 
-    public void displayEvents() {
+    public void displayEvents() throws ParseException {
+        eventFile.readFile();
+
+        Date d = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
+        String currentDate = formatter.format(d);
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+        LocalDateTime now = LocalDateTime.now();
+        String currentTime = dtf.format(now);
+
+        int yCounter = 45;
+        int length = eventFile.Length();
+        int eventCounter = 0;
+
+        for (int i = 0; i < (length / 4); i++) {
+            JLabel date = new JLabel(eventFile.readFileLine(eventCounter));
+            JLabel time = new JLabel(eventFile.readFileLine(eventCounter + 1));
+            System.out.println(eventStatus);
+            if (eventStatus.equals("upcoming")) {
+                System.out.println("running");
+                if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).before(d)) {
+                    System.out.println("works");
+                    break;
+//                } else if (new SimpleDateFormat("HH:mm").parse(currentTime).before(new Date())) {
+//                    continue;
+                }
+            } else if (eventStatus.equals("past")) {
+                System.out.println("running");
+                if (!(new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).before(d))) {
+                    continue;
+//                } else if (new SimpleDateFormat("HH:mm").parse(currentTime).before(new Date())) {
+//                    continue;
+                }
+            }
+
+            date.setBounds(0, yCounter, 200, 40);
+            viewEventsFrame.add(date);
+
+            time.setBounds(60, yCounter, 200, 40);
+            viewEventsFrame.add(time);
+
+            JLabel name = new JLabel(eventFile.readFileLine(eventCounter + 2));
+            name.setBounds(110, yCounter, 1000, 40);
+            viewEventsFrame.add(name);
+
+            JLabel notes = new JLabel(eventFile.readFileLine(eventCounter + 3));
+            notes.setBounds(270, yCounter, 1000, 40);
+            viewEventsFrame.add(notes);
+
+            yCounter = yCounter + 20;
+
+            if (eventCounter + 4 != length) {
+                eventCounter = eventCounter + 4;
+            }
+        }
+    }
+
+    public void displayEventsWorks() {
         eventFile.readFile();
 
         int yCounter = 45;
         int length = eventFile.Length();
         int eventCounter = 0;
 
-        if (eventStatus.equals("all")) ; {
-            for (int i = 0; i < (length / 4); i++) {
-                JLabel date = new JLabel(eventFile.readFileLine(eventCounter));
-                date.setBounds(0, yCounter, 200, 40);
-                viewEventsFrame.add(date);
+        for (int i = 0; i < (length / 4); i++) {
+            JLabel date = new JLabel(eventFile.readFileLine(eventCounter));
+            date.setBounds(0, yCounter, 200, 40);
+            viewEventsFrame.add(date);
 
-                JLabel time = new JLabel(eventFile.readFileLine(eventCounter + 1));
-                time.setBounds(60, yCounter, 200, 40);
-                viewEventsFrame.add(time);
+            JLabel time = new JLabel(eventFile.readFileLine(eventCounter + 1));
+            time.setBounds(60, yCounter, 200, 40);
+            viewEventsFrame.add(time);
 
-                JLabel name = new JLabel(eventFile.readFileLine(eventCounter + 2));
-                name.setBounds(110, yCounter, 1000, 40);
-                viewEventsFrame.add(name);
+            JLabel name = new JLabel(eventFile.readFileLine(eventCounter + 2));
+            name.setBounds(110, yCounter, 1000, 40);
+            viewEventsFrame.add(name);
 
-                JLabel notes = new JLabel(eventFile.readFileLine(eventCounter + 3));
-                notes.setBounds(270, yCounter, 1000, 40);
-                viewEventsFrame.add(notes);
+            JLabel notes = new JLabel(eventFile.readFileLine(eventCounter + 3));
+            notes.setBounds(270, yCounter, 1000, 40);
+            viewEventsFrame.add(notes);
 
-                yCounter = yCounter + 20;
+            yCounter = yCounter + 20;
 
-                if (eventCounter + 4 != length) {
-                    eventCounter = eventCounter + 4;
-                }
+            if (eventCounter + 4 != length) {
+                eventCounter = eventCounter + 4;
             }
         }
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -218,7 +280,11 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         } else if (e.getActionCommand().equals("View all events")) {
             System.out.println("View events!");
             viewEvents();
-            displayEvents();
+            try {
+                displayEvents();
+            } catch (ParseException ex) {
+                ex.printStackTrace();
+            }
         } else if (e.getActionCommand().equals("Main menu")) {
             System.out.println("Main menu!");
         } else if (e.getActionCommand().equals("Create event")) {
@@ -237,25 +303,40 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         } else if (e.getActionCommand().equals("All")) {
             System.out.println("All!");
             eventStatus = "all";
-            viewEventsFrame.removeAll();
+            //viewEventsFrame.removeAll();
             viewEvents();
-            displayEvents();
+            try {
+                displayEvents();
+            } catch (ParseException ex) {
+                ex.printStackTrace();
+            }
             //viewEventsFrame.setVisible(false);
             //upcomingFrame.setVisible(true);
         } else if (e.getActionCommand().equals("Upcoming")) {
             System.out.println("Upcoming!");
             eventStatus = "upcoming";
-            viewEventsFrame.removeAll();
+            //viewEventsFrame.removeAll();
+            removeAll();
+            revalidate();
+            repaint();
             viewEvents();
-            displayEvents();
+            try {
+                displayEvents();
+            } catch (ParseException ex) {
+                ex.printStackTrace();
+            }
             //viewEventsFrame.setVisible(false);
             //upcomingFrame.setVisible(true);
         } else if (e.getActionCommand().equals("Past")) {
             System.out.println("Past!");
             eventStatus = "past";
-            viewEventsFrame.removeAll();
+            //viewEventsFrame.removeAll();
             viewEvents();
-            displayEvents();
+            try {
+                displayEvents();
+            } catch (ParseException ex) {
+                ex.printStackTrace();
+            }
             //viewEventsFrame.setVisible(false);
             //pastFrame.setVisible(true);
         }
