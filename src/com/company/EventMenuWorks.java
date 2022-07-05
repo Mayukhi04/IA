@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-public class EventMenu extends JPanel implements ActionListener, DocumentListener {
+public class EventMenuWorks extends JPanel implements ActionListener, DocumentListener {
     // canvas for other GUI widgets
     JFrame eventFrame = new JFrame("Event Menu");
     JFrame createEventFrame = new JFrame("Create New Event");
@@ -25,7 +25,7 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
     JTextField time = new JTextField();
     JTextField notes = new JTextField();
 
-    public EventMenu() {
+    public EventMenuWorks() {
         eventFrame.setPreferredSize(new Dimension(300, 250));
         setLayout(null);
         eventFrame.pack();
@@ -36,23 +36,23 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         JLabel underline = new JLabel("-----------------");
         heading.setBounds(0, 0, 200, 40);
         underline.setBounds(0, 5, 200, 40);
-        eventFrame.getContentPane().add(heading);
-        eventFrame.getContentPane().add(underline);
+        eventFrame.add(heading);
+        eventFrame.add(underline);
 
         JButton button1 = new JButton("Create a new event");
         button1.setBounds(0, 40, 200, 40);
         button1.addActionListener(this);
-        eventFrame.getContentPane().add(button1);
+        eventFrame.add(button1);
 
         JButton button2 = new JButton("View all events");
         button2.setBounds(0, 90, 200, 40);
         button2.addActionListener(this);
-        eventFrame.getContentPane().add(button2);
+        eventFrame.add(button2);
 
         JButton button3 = new JButton("Main menu");
         button3.setBounds(0, 140, 200, 40);
         button3.addActionListener(this);
-        eventFrame.getContentPane().add(button3);
+        eventFrame.add(button3);
 
     }
 
@@ -139,44 +139,44 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         JLabel underline = new JLabel("------------------");
         heading.setBounds(0, 0, 200, 40);
         underline.setBounds(0, 5, 200, 40);
-        viewEventsFrame.getContentPane().add(heading);
-        viewEventsFrame.getContentPane().add(underline);
+        viewEventsFrame.add(heading);
+        viewEventsFrame.add(underline);
 
         JLabel date = new JLabel("Date");
         date.setBounds(0, 25, 200, 40);
-        viewEventsFrame.getContentPane().add(date);
+        viewEventsFrame.add(date);
 
         JLabel time = new JLabel("Time");
         time.setBounds(60, 25, 200, 40);
-        viewEventsFrame.getContentPane().add(time);
+        viewEventsFrame.add(time);
 
         JLabel name = new JLabel("Event name");
         name.setBounds(110, 25, 200, 40);
-        viewEventsFrame.getContentPane().add(name);
+        viewEventsFrame.add(name);
 
         JLabel Notes = new JLabel("Notes");
         Notes.setBounds(270, 25, 200, 40);
-        viewEventsFrame.getContentPane().add(Notes);
+        viewEventsFrame.add(Notes);
 
         JButton returnToMenu = new JButton("Return to menu");
         returnToMenu.setBounds(0, 260, 125, 40);
         returnToMenu.addActionListener(this);
-        viewEventsFrame.getContentPane().add(returnToMenu);
+        viewEventsFrame.add(returnToMenu);
 
         JButton all = new JButton("All");
         all.setBounds(225, 265, 70, 30);
         all.addActionListener(this);
-        viewEventsFrame.getContentPane().add(all);
+        viewEventsFrame.add(all);
 
         JButton upcoming = new JButton("Upcoming");
         upcoming.setBounds(300, 265, 95, 30);
         upcoming.addActionListener(this);
-        viewEventsFrame.getContentPane().add(upcoming);
+        viewEventsFrame.add(upcoming);
 
         JButton past = new JButton("Past");
         past.setBounds(400, 265, 70, 30);
         past.addActionListener(this);
-        viewEventsFrame.getContentPane().add(past);
+        viewEventsFrame.add(past);
 
     }
 
@@ -198,38 +198,19 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         for (int i = 0; i < (length / 4); i++) {
             JLabel date = new JLabel(eventFile.readFileLine(eventCounter));
             JLabel time = new JLabel(eventFile.readFileLine(eventCounter + 1));
-
+            System.out.println(eventStatus);
             if (eventStatus.equals("upcoming")) {
-                System.out.println(new SimpleDateFormat("HH:mm").parse(eventFile.readFileLine(eventCounter + 1)));
-                System.out.println(d);
-
-                if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).equals(d)){
-                    if (new SimpleDateFormat("HH:mm").parse(eventFile.readFileLine(eventCounter + 1)).before(d)) {
-                        if (eventCounter + 4 != length) {
-                            eventCounter = eventCounter + 4;
-                        }
-                        continue;
-                    }
-                } else if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).before(d)) {
-                    if (eventCounter + 4 != length) {
-                        eventCounter = eventCounter + 4;
-                    }
-                    continue;
-                }
-
-                if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).equals(d)){
-                    if (new SimpleDateFormat("HH:mm").parse(eventFile.readFileLine(eventCounter + 1)).before(d)) {
-                        if (eventCounter + 4 != length) {
-                            eventCounter = eventCounter + 4;
-                        }
-                        continue;
-                    }
+                System.out.println("running");
+                if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).before(d)) {
+                    System.out.println("works");
+                    break;
+//                } else if (new SimpleDateFormat("HH:mm").parse(currentTime).before(new Date())) {
+//                    continue;
                 }
             } else if (eventStatus.equals("past")) {
+                System.out.println("running");
                 if (!(new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).before(d))) {
-                    if (eventCounter + 4 != length) {
-                        eventCounter = eventCounter + 4;
-                    }
+                    System.out.println("works");
                     continue;
 //                } else if (new SimpleDateFormat("HH:mm").parse(currentTime).before(new Date())) {
 //                    continue;
@@ -237,18 +218,18 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
             }
 
             date.setBounds(0, yCounter, 200, 40);
-            viewEventsFrame.getContentPane().add(date);
+            viewEventsFrame.add(date);
 
             time.setBounds(60, yCounter, 200, 40);
-            viewEventsFrame.getContentPane().add(time);
+            viewEventsFrame.add(time);
 
             JLabel name = new JLabel(eventFile.readFileLine(eventCounter + 2));
             name.setBounds(110, yCounter, 1000, 40);
-            viewEventsFrame.getContentPane().add(name);
+            viewEventsFrame.add(name);
 
             JLabel notes = new JLabel(eventFile.readFileLine(eventCounter + 3));
             notes.setBounds(270, yCounter, 1000, 40);
-            viewEventsFrame.getContentPane().add(notes);
+            viewEventsFrame.add(notes);
 
             yCounter = yCounter + 20;
 
@@ -257,6 +238,39 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
             }
         }
     }
+
+    public void displayEventsWorks() {
+        eventFile.readFile();
+
+        int yCounter = 45;
+        int length = eventFile.Length();
+        int eventCounter = 0;
+
+        for (int i = 0; i < (length / 4); i++) {
+            JLabel date = new JLabel(eventFile.readFileLine(eventCounter));
+            date.setBounds(0, yCounter, 200, 40);
+            viewEventsFrame.add(date);
+
+            JLabel time = new JLabel(eventFile.readFileLine(eventCounter + 1));
+            time.setBounds(60, yCounter, 200, 40);
+            viewEventsFrame.add(time);
+
+            JLabel name = new JLabel(eventFile.readFileLine(eventCounter + 2));
+            name.setBounds(110, yCounter, 1000, 40);
+            viewEventsFrame.add(name);
+
+            JLabel notes = new JLabel(eventFile.readFileLine(eventCounter + 3));
+            notes.setBounds(270, yCounter, 1000, 40);
+            viewEventsFrame.add(notes);
+
+            yCounter = yCounter + 20;
+
+            if (eventCounter + 4 != length) {
+                eventCounter = eventCounter + 4;
+            }
+        }
+    }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -290,39 +304,41 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         } else if (e.getActionCommand().equals("All")) {
             System.out.println("All!");
             eventStatus = "all";
-            viewEventsFrame.getContentPane().removeAll();
-            viewEventsFrame.getContentPane().revalidate();
-            viewEventsFrame.getContentPane().repaint();
+            //viewEventsFrame.removeAll();
             viewEvents();
             try {
                 displayEvents();
             } catch (ParseException ex) {
                 ex.printStackTrace();
             }
+            //viewEventsFrame.setVisible(false);
+            //upcomingFrame.setVisible(true);
         } else if (e.getActionCommand().equals("Upcoming")) {
             System.out.println("Upcoming!");
             eventStatus = "upcoming";
-            viewEventsFrame.getContentPane().removeAll();
-            viewEventsFrame.getContentPane().revalidate();
-            viewEventsFrame.getContentPane().repaint();
-            viewEvents();
+            //viewEventsFrame.removeAll();
+            viewEventsFrame.removeAll();
+            viewEventsFrame.revalidate();
+            viewEventsFrame.repaint();
             try {
                 displayEvents();
             } catch (ParseException ex) {
                 ex.printStackTrace();
             }
+            //viewEventsFrame.setVisible(false);
+            //upcomingFrame.setVisible(true);
         } else if (e.getActionCommand().equals("Past")) {
             System.out.println("Past!");
             eventStatus = "past";
-            viewEventsFrame.getContentPane().removeAll();
-            viewEventsFrame.getContentPane().revalidate();
-            viewEventsFrame.getContentPane().repaint();
+            //viewEventsFrame.removeAll();
             viewEvents();
             try {
                 displayEvents();
             } catch (ParseException ex) {
                 ex.printStackTrace();
             }
+            //viewEventsFrame.setVisible(false);
+            //pastFrame.setVisible(true);
         }
     }
 
