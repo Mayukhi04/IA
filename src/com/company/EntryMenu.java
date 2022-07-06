@@ -191,25 +191,19 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
     public void actionPerformed(ActionEvent e) {
         entryFrame.setVisible(false);
         if (e.getActionCommand().equals("Write a new entry")) {
-            System.out.println("New entry!");
             createEntryMenu();
         } else if (e.getActionCommand().equals("View previous entries")) {
-            System.out.println("View entries!");
             viewEntries();
             displayEntries();
         } else if (e.getActionCommand().equals("Main menu")) {
-            System.out.println("Main menu!");
         } else if (e.getActionCommand().equals("Create entry")) {
-            System.out.println("Create entry!");
             createEntry();
             createEntryFrame.setVisible(false);
             entryFrame.setVisible(true);
         } else if (e.getActionCommand().equals("Cancel")) {
-            System.out.println("Cancel!");
             createEntryFrame.setVisible(false);
             entryFrame.setVisible(true);
         } else if (e.getActionCommand().equals("Return to menu")) {
-            System.out.println("Return to menu!");
             viewEntriesFrame.setVisible(false);
             entryFrame.setVisible(true);
         }

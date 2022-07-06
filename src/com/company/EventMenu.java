@@ -200,9 +200,6 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
             JLabel time = new JLabel(eventFile.readFileLine(eventCounter + 1));
 
             if (eventStatus.equals("upcoming")) {
-                System.out.println(new SimpleDateFormat("HH:mm").parse(eventFile.readFileLine(eventCounter + 1)));
-                System.out.println(d);
-
                 if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).equals(d)){
                     if (new SimpleDateFormat("HH:mm").parse(eventFile.readFileLine(eventCounter + 1)).before(d)) {
                         if (eventCounter + 4 != length) {
@@ -262,10 +259,8 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
     public void actionPerformed(ActionEvent e) {
         eventFrame.setVisible(false);
         if (e.getActionCommand().equals("Create a new event")) {
-            System.out.println("New event!");
             createEventMenu();
         } else if (e.getActionCommand().equals("View all events")) {
-            System.out.println("View events!");
             viewEvents();
             try {
                 displayEvents();
@@ -273,22 +268,17 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
                 ex.printStackTrace();
             }
         } else if (e.getActionCommand().equals("Main menu")) {
-            System.out.println("Main menu!");
         } else if (e.getActionCommand().equals("Create event")) {
-            System.out.println("Create event!");
             createEvent();
             createEventFrame.setVisible(false);
             eventFrame.setVisible(true);
         } else if (e.getActionCommand().equals("Cancel")) {
-            System.out.println("Cancel!");
             createEventFrame.setVisible(false);
             eventFrame.setVisible(true);
         } else if (e.getActionCommand().equals("Return to menu")) {
-            System.out.println("Return to menu!");
             viewEventsFrame.setVisible(false);
             eventFrame.setVisible(true);
         } else if (e.getActionCommand().equals("All")) {
-            System.out.println("All!");
             eventStatus = "all";
             viewEventsFrame.getContentPane().removeAll();
             viewEventsFrame.getContentPane().revalidate();
@@ -300,7 +290,6 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
                 ex.printStackTrace();
             }
         } else if (e.getActionCommand().equals("Upcoming")) {
-            System.out.println("Upcoming!");
             eventStatus = "upcoming";
             viewEventsFrame.getContentPane().removeAll();
             viewEventsFrame.getContentPane().revalidate();
@@ -312,7 +301,6 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
                 ex.printStackTrace();
             }
         } else if (e.getActionCommand().equals("Past")) {
-            System.out.println("Past!");
             eventStatus = "past";
             viewEventsFrame.getContentPane().removeAll();
             viewEventsFrame.getContentPane().revalidate();

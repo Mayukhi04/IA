@@ -20,19 +20,18 @@ public class MainMenu extends JPanel implements ActionListener{
         add(heading);
         add(underline);
 
-
         JButton button1 = new JButton("Entries");
-        button1.setBounds(0,40, 100, 40);
+        button1.setBounds(0,50, 100, 40);
         button1.addActionListener(this);
         add(button1);
 
         JButton button2 = new JButton("Events");
-        button2.setBounds(0,90, 100, 40);
+        button2.setBounds(0,100, 100, 40);
         button2.addActionListener(this);
         add(button2);
 
         JButton button3 = new JButton("Exit");
-        button3.setBounds(0,140, 100, 40);
+        button3.setBounds(0,150, 100, 40);
         button3.addActionListener(this);
         add(button3);
 

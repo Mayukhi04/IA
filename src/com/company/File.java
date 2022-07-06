@@ -30,7 +30,6 @@ class File {
             fileContents.add(br.readLine());
 
             while (fileContents.get(counter) != null) {
-                System.out.println(fileContents.get(counter));
                 fileContents.add(br.readLine());
                 counter++;
             }
@@ -71,7 +70,6 @@ class File {
         try (RandomAccessFile rf = new RandomAccessFile(filename,"rws")) {
             rf.seek(start);
             char letter = (char)rf.read();
-            System.out.println(letter);
         }
         catch (IOException e) {
             e.printStackTrace();
