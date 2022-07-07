@@ -1,9 +1,10 @@
 package com.company;
 import javax.swing.*;
+import java.text.ParseException;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
          System.out.println("Starting...");
 
          JFrame frame = new JFrame("Main Menu");

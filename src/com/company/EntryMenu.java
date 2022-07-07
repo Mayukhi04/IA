@@ -109,9 +109,9 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
 
         for (int i = 0; i < 4; i++) {
             if (entryDetails[i].equals("")) {
-                entryFile.write("#");
+                File.write("#");
             } else {
-                entryFile.write(entryDetails[i]);
+                File.write(entryDetails[i]);
             }
         }
 
@@ -196,6 +196,7 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
             viewEntries();
             displayEntries();
         } else if (e.getActionCommand().equals("Main menu")) {
+            entryFrame.setVisible(false);
         } else if (e.getActionCommand().equals("Create entry")) {
             createEntry();
             createEntryFrame.setVisible(false);

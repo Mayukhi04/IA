@@ -120,9 +120,9 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
 
         for (int i = 0; i < 4; i++) {
             if (eventDetails[i].equals("")) {
-                eventFile.write("#");
+                File.write("#");
             } else {
-                eventFile.write(eventDetails[i]);
+                File.write(eventDetails[i]);
             }
         }
 
@@ -183,10 +183,6 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
     public void displayEvents() throws ParseException {
         eventFile.readFile();
 
-        Date d = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
-        String currentDate = formatter.format(d);
-
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalDateTime now = LocalDateTime.now();
         String currentTime = dtf.format(now);
@@ -200,22 +196,22 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
             JLabel time = new JLabel(eventFile.readFileLine(eventCounter + 1));
 
             if (eventStatus.equals("upcoming")) {
-                if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).equals(d)){
-                    if (new SimpleDateFormat("HH:mm").parse(eventFile.readFileLine(eventCounter + 1)).before(d)) {
+                if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).equals(new Date())){
+                    if (new SimpleDateFormat("HH:mm").parse(eventFile.readFileLine(eventCounter + 1)).before(new Date())) {
                         if (eventCounter + 4 != length) {
                             eventCounter = eventCounter + 4;
                         }
                         continue;
                     }
-                } else if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).before(d)) {
+                } else if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).before(new Date())) {
                     if (eventCounter + 4 != length) {
                         eventCounter = eventCounter + 4;
                     }
                     continue;
                 }
 
-                if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).equals(d)){
-                    if (new SimpleDateFormat("HH:mm").parse(eventFile.readFileLine(eventCounter + 1)).before(d)) {
+                if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).equals(new Date())){
+                    if (new SimpleDateFormat("HH:mm").parse(eventFile.readFileLine(eventCounter + 1)).before(new Date())) {
                         if (eventCounter + 4 != length) {
                             eventCounter = eventCounter + 4;
                         }
@@ -223,7 +219,7 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
                     }
                 }
             } else if (eventStatus.equals("past")) {
-                if (!(new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).before(d))) {
+                if (!(new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).before(new Date()))) {
                     if (eventCounter + 4 != length) {
                         eventCounter = eventCounter + 4;
                     }
@@ -268,6 +264,7 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
                 ex.printStackTrace();
             }
         } else if (e.getActionCommand().equals("Main menu")) {
+            eventFrame.setVisible(false);
         } else if (e.getActionCommand().equals("Create event")) {
             createEvent();
             createEventFrame.setVisible(false);
