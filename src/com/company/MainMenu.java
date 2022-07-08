@@ -64,7 +64,7 @@ public class MainMenu extends JPanel implements ActionListener{
                 }
                 continue;
             } else {
-                JLabel reminder = new JLabel("Reminder: " + eventFile.readFileLine(eventCounter + 2) + ", " +  eventFile.readFileLine(eventCounter + 1));
+                JLabel reminder = new JLabel("Reminder: " + eventFile.readFileLine(eventCounter + 2) + ", " +  eventFile.readFileLine(eventCounter) + " - "  +  eventFile.readFileLine(eventCounter + 1));
                 reminder.setBounds(0, 30, 500, 20);
                 add(reminder);
                 upcomingEvent = true;
