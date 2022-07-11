@@ -8,16 +8,17 @@ import java.util.Date;
 public class Entry {
     String[] entryDetails;
 
-    public Entry(String[] d) {
-        entryDetails = d;
+    public Entry() {
+
     }
 
-    public void create() {
+    public void create(String[] d) {
         File eventFile = new File("entries.txt");
+        entryDetails = d;
 
-        Date d = new Date();
+        Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
-        String currentDate = formatter.format(d);
+        String currentDate = formatter.format(date);
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalDateTime now = LocalDateTime.now();
@@ -35,12 +36,16 @@ public class Entry {
         }
     }
 
+    public void delete(String entryName) {
+
+    }
+
     public void respond(int num) {
-        System.out.println("lmao rip you");
+        System.out.println("");
     }
 
     public void respond(String mood) {
-        System.out.println("lmao rip you");
+        System.out.println("");
     }
 
 }

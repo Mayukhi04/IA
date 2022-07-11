@@ -5,6 +5,7 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -25,6 +26,7 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
     JTextField date = new JTextField();
     JTextField time = new JTextField();
     JTextField notes = new JTextField();
+    JTextField eventName = new JTextField();
 
     public EventMenu() {
         eventFrame.setPreferredSize(new Dimension(300, 280));
@@ -117,14 +119,14 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
     }
 
     public void createEvent() {
-        String[]eventDetails = new String[4];
+        String[] eventDetails = new String[4];
         eventDetails[0] = date.getText();
         eventDetails[1] = time.getText();
         eventDetails[2] = title.getText();
         eventDetails[3] = notes.getText();
 
-        Event e = new Event(eventDetails);
-        e.create();
+        Event e = new Event();
+        e.create(eventDetails);
     }
 
     public void viewEvents() {
@@ -195,37 +197,53 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
             JLabel time = new JLabel(eventFile.readFileLine(eventCounter + 1));
 
             if (eventStatus.equals("upcoming")) {
-                if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).equals(new Date())){
-                    if (new SimpleDateFormat("HH:mm").parse(eventFile.readFileLine(eventCounter + 1)).before(new Date())) {
+                if (eventFile.readFileLine(eventCounter).equals("#")) {
+                    if (eventCounter + 4 != length) {
+                        eventCounter = eventCounter + 4;
+                    }
+                    continue;
+                } else {
+                    if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).equals(new Date())){
+                        if (new SimpleDateFormat("HH:mm").parse(eventFile.readFileLine(eventCounter + 1)).before(new Date())) {
+                            if (eventCounter + 4 != length) {
+                                eventCounter = eventCounter + 4;
+                            }
+                            continue;
+                        }
+                    } else if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).before(new Date())) {
                         if (eventCounter + 4 != length) {
                             eventCounter = eventCounter + 4;
                         }
                         continue;
                     }
-                } else if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).before(new Date())) {
-                    if (eventCounter + 4 != length) {
-                        eventCounter = eventCounter + 4;
+
+                    if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).equals(new Date())){
+                        if (new SimpleDateFormat("HH:mm").parse(eventFile.readFileLine(eventCounter + 1)).before(new Date())) {
+                            if (eventCounter + 4 != length) {
+                                eventCounter = eventCounter + 4;
+                            }
+                            continue;
+                        }
                     }
-                    continue;
                 }
 
-                if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).equals(new Date())){
-                    if (new SimpleDateFormat("HH:mm").parse(eventFile.readFileLine(eventCounter + 1)).before(new Date())) {
-                        if (eventCounter + 4 != length) {
-                            eventCounter = eventCounter + 4;
-                        }
-                        continue;
-                    }
-                }
             } else if (eventStatus.equals("past")) {
-                if (!(new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).before(new Date()))) {
+                if (eventFile.readFileLine(eventCounter).equals("#")) {
                     if (eventCounter + 4 != length) {
                         eventCounter = eventCounter + 4;
                     }
                     continue;
+                } else {
+                    if (!(new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).before(new Date()))) {
+                        if (eventCounter + 4 != length) {
+                            eventCounter = eventCounter + 4;
+                        }
+                        continue;
 //                } else if (new SimpleDateFormat("HH:mm").parse(currentTime).before(new Date())) {
 //                    continue;
+                    }
                 }
+
             }
 
             date.setBounds(0, yCounter, 200, 40);
@@ -250,8 +268,9 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         }
     }
 
-    public void editEvent() {
-        editEventsFrame.setPreferredSize(new Dimension(400, 300));
+    public void editOrDeleteEvent() {
+        editEventsFrame.setPreferredSize(null);
+        editEventsFrame.setPreferredSize(new Dimension(300, 250));
         setLayout(null);
         editEventsFrame.pack();
         editEventsFrame.setVisible(true);
@@ -261,23 +280,98 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         JLabel underline = new JLabel("--------------------------------");
         heading.setBounds(0, 0, 200, 40);
         underline.setBounds(0, 5, 200, 40);
-        editEventsFrame.add(heading);
-        editEventsFrame.add(underline);
+        editEventsFrame.getContentPane().add(heading);
+        editEventsFrame.getContentPane().add(underline);
 
         JLabel name = new JLabel("Event name:");
         name.setBounds(0,40, 75, 40);
         editEventsFrame.getContentPane().add(name);
 
-        JTextField eventName = new JTextField();
         eventName.setBounds(80,45, 150, 30);
         eventName.getDocument().addDocumentListener(this);
-        editEventsFrame.add(eventName);
+        editEventsFrame.getContentPane().add(eventName);
 
-        JButton m = new JButton("Return to menu");
-        m.setBounds(0, 200, 125, 40);
+        JButton e = new JButton("Edit");
+        e.setBounds(0, 100, 125, 40);
+        e.addActionListener(this);
+        editEventsFrame.getContentPane().add(e);
+
+        JButton d = new JButton("Delete");
+        d.setBounds(135, 100, 125, 40);
+        d.addActionListener(this);
+        editEventsFrame.getContentPane().add(d);
+
+        JButton m = new JButton("Cancel");
+        m.setBounds(0, 150, 125, 40);
         m.addActionListener(this);
-        editEventsFrame.add(m);
+        editEventsFrame.getContentPane().add(m);
 
+    }
+
+    public void editEvent() {
+        editEventsFrame.setPreferredSize(null);
+        editEventsFrame.setPreferredSize(new Dimension(400, 300));
+        setLayout(null);
+        editEventsFrame.pack();
+        editEventsFrame.setVisible(true);
+        editEventsFrame.setLayout(null);
+
+        JLabel heading = new JLabel("Edit event");
+        JLabel underline = new JLabel("---------------");
+        heading.setBounds(0, 0, 200, 40);
+        underline.setBounds(0, 5, 200, 40);
+        editEventsFrame.getContentPane().add(heading);
+        editEventsFrame.getContentPane().add(underline);
+
+        JLabel label1 = new JLabel("Title: ");
+        label1.setBounds(0,40, 50, 40);
+        editEventsFrame.getContentPane().add(label1);
+        title.setBounds(40,45, 200, 30);
+        title.getDocument().addDocumentListener(this);
+        editEventsFrame.getContentPane().add(title);
+
+        JLabel label2 = new JLabel("Date: ");
+        label2.setBounds(0,85, 50, 40);
+        editEventsFrame.getContentPane().add(label2);
+        date.setBounds(40,90, 80, 30);
+        date.getDocument().addDocumentListener(this);
+        editEventsFrame.getContentPane().add(date);
+
+        JLabel label3 = new JLabel("Time: ");
+        label3.setBounds(125,85, 50, 40);
+        editEventsFrame.getContentPane().add(label3);
+        time.setBounds(160,90, 80, 30);
+        time.getDocument().addDocumentListener(this);
+        editEventsFrame.getContentPane().add(time);
+
+        JLabel label4 = new JLabel("Notes: ");
+        label4.setBounds(0,130, 50, 40);
+        editEventsFrame.getContentPane().add(label4);
+        notes.setBounds(40,135, 200, 80);
+        notes.getDocument().addDocumentListener(this);
+        editEventsFrame.getContentPane().add(notes);
+
+        JButton create = new JButton ("Update event");
+        create.setBounds(250, 90, 125, 30);
+        create.addActionListener(this);
+        editEventsFrame.getContentPane().add(create);
+
+        JButton cancel = new JButton ("Cancel");
+        cancel.setBounds(250,135, 125, 30);
+        cancel.addActionListener(this);
+        editEventsFrame.getContentPane().add(cancel);
+
+    }
+
+    public void updateEvent() throws FileNotFoundException {
+        String[] eventDetails = new String[4];
+        eventDetails[0] = date.getText();
+        eventDetails[1] = time.getText();
+        eventDetails[2] = title.getText();
+        eventDetails[3] = notes.getText();
+
+        Event e = new Event();
+        e.updateEvent(eventName.getText(), eventDetails);
     }
 
     @Override
@@ -295,7 +389,7 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         } else if (e.getActionCommand().equals("Edit or delete an event")) {
             eventFrame.setVisible(false);
             editEventsFrame.setVisible(true);
-            editEvent();
+            editOrDeleteEvent();
         } else if (e.getActionCommand().equals("Main menu")) {
             eventFrame.setVisible(false);
         } else if (e.getActionCommand().equals("Create event")) {
@@ -305,9 +399,34 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         } else if (e.getActionCommand().equals("Cancel")) {
             createEventFrame.setVisible(false);
             eventFrame.setVisible(true);
-        } else if (e.getActionCommand().equals("Return to menu")) {
-            viewEventsFrame.setVisible(false);
             editEventsFrame.setVisible(false);
+        } else if (e.getActionCommand().equals("Edit")) {
+            editEventsFrame.getContentPane().removeAll();
+            editEventsFrame.getContentPane().revalidate();
+            editEventsFrame.getContentPane().repaint();
+            editEvent();
+        } else if (e.getActionCommand().equals("Update event")) {
+            try {
+                updateEvent();
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+            editEventsFrame.setVisible(false);
+            eventFrame.setVisible(true);
+        } else if (e.getActionCommand().equals("Delete")) {
+            Event myEvent = new Event();
+            try {
+                System.out.println(eventName.getText());
+                myEvent.deleteEvent(eventName.getText());
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+            editEventsFrame.setVisible(false);
+            eventFrame.setVisible(true);
+        } else if (e.getActionCommand().equals("Return to menu")) {
+            createEventFrame.setVisible(false);
+            editEventsFrame.setVisible(false);
+            viewEventsFrame.setVisible(false);
             eventFrame.setVisible(true);
         } else if (e.getActionCommand().equals("All")) {
             eventStatus = "all";

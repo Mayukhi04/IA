@@ -14,14 +14,16 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
     // canvas for other GUI widgets
     JFrame entryFrame = new JFrame("Entry Menu");
     JFrame createEntryFrame = new JFrame("Create Entry");
+    JFrame editEntriesFrame = new JFrame("Edit/Delete Entries");
     JFrame viewEntriesFrame = new JFrame("View Entries");
 
     File entryFile = new File("entries.txt");
     JTextField mood = new JTextField();
     JTextField entry = new JTextField();
+    JTextField entryName = new JTextField();
 
     public EntryMenu() {
-        entryFrame.setPreferredSize(new Dimension(300, 280));
+        entryFrame.setPreferredSize(new Dimension(300, 230));
         setLayout(null);
         entryFrame.pack();
         entryFrame.setVisible(true);
@@ -44,15 +46,10 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
         button2.addActionListener(this);
         entryFrame.add(button2);
 
-        JButton button3 = new JButton("Edit or delete an entry");
+        JButton button3 = new JButton("Main menu");
         button3.setBounds(0, 140, 200, 40);
         button3.addActionListener(this);
         entryFrame.add(button3);
-
-        JButton button4 = new JButton("Main menu");
-        button4.setBounds(0, 190, 200, 40);
-        button4.addActionListener(this);
-        entryFrame.add(button4);
 
     }
 
@@ -101,8 +98,8 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
         entryDetails[2] = mood.getText();
         entryDetails[3] = entry.getText();
 
-        Entry e = new Entry(entryDetails);
-        e.create();
+        Entry e = new Entry();
+        e.create(entryDetails);
     }
 
     public void viewEntries() {

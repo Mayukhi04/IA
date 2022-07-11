@@ -51,37 +51,45 @@ public class MainMenu extends JPanel implements ActionListener{
         boolean upcomingEvent = false;
 
         for (int i = 0; i < (length / 4); i++) {
-            if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).equals(new Date())){
-                if (new SimpleDateFormat("HH:mm").parse(eventFile.readFileLine(eventCounter + 1)).before(new Date())) {
-                    if (eventCounter + 4 != length) {
-                        eventCounter = eventCounter + 4;
-                    }
-                    continue;
-                }
-            } else if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).before(new Date())) {
+            if (eventFile.readFileLine(eventCounter).equals("#")) {
                 if (eventCounter + 4 != length) {
                     eventCounter = eventCounter + 4;
                 }
                 continue;
             } else {
-                JLabel reminder = new JLabel("Reminder: " + eventFile.readFileLine(eventCounter + 2) + ", " +  eventFile.readFileLine(eventCounter) + " - "  +  eventFile.readFileLine(eventCounter + 1));
-                reminder.setBounds(0, 30, 500, 20);
-                add(reminder);
-                upcomingEvent = true;
-            }
-
-            if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).equals(new Date())){
-                if (new SimpleDateFormat("HH:mm").parse(eventFile.readFileLine(eventCounter + 1)).before(new Date())) {
+                if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).equals(new Date())){
+                    if (new SimpleDateFormat("HH:mm").parse(eventFile.readFileLine(eventCounter + 1)).before(new Date())) {
+                        if (eventCounter + 4 != length) {
+                            eventCounter = eventCounter + 4;
+                        }
+                        continue;
+                    }
+                } else if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).before(new Date())) {
                     if (eventCounter + 4 != length) {
                         eventCounter = eventCounter + 4;
                     }
                     continue;
+                } else {
+                    JLabel reminder = new JLabel("Reminder: " + eventFile.readFileLine(eventCounter + 2) + ", " +  eventFile.readFileLine(eventCounter) + " - "  +  eventFile.readFileLine(eventCounter + 1));
+                    reminder.setBounds(0, 30, 500, 20);
+                    add(reminder);
+                    upcomingEvent = true;
+                }
+
+                if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).equals(new Date())){
+                    if (new SimpleDateFormat("HH:mm").parse(eventFile.readFileLine(eventCounter + 1)).before(new Date())) {
+                        if (eventCounter + 4 != length) {
+                            eventCounter = eventCounter + 4;
+                        }
+                        continue;
+                    }
+                }
+
+                if (eventCounter + 4 != length) {
+                    eventCounter = eventCounter + 4;
                 }
             }
 
-            if (eventCounter + 4 != length) {
-                eventCounter = eventCounter + 4;
-            }
         }
 
         if (!upcomingEvent) {

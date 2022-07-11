@@ -1,15 +1,10 @@
 package com.company;
-import java.io.FileReader;
-import java.io.BufferedReader;
-import java.io.FileWriter;
-import java.io.PrintWriter;
-import java.io.RandomAccessFile;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 class File {
     public static String fileName;
-    public ArrayList<String> fileContents;
+    public static ArrayList<String> fileContents;
     int counter = 0;
 
     public File(String fileName) {
@@ -63,6 +58,55 @@ class File {
         catch (IOException exception) {
             System.out.println("Something went wrong");
         }
+    }
+
+    public static void update(String text, String[] details) throws FileNotFoundException {
+        int index = 0;
+
+        for (int i = 2; i < fileContents.size() - 1; i = i + 4) {
+            if (fileContents.get(i).equals(text)) {
+                index = i;
+                break;
+            }
+        }
+
+        int indexCounter = -2;
+
+        for (int i = 0; i < 4; i++) {
+            if (!details[i].equals("")) {
+                fileContents.set((index + indexCounter), details[i]);
+            }
+            indexCounter++;
+        }
+
+        PrintWriter writer = new PrintWriter(fileName);
+        writer.print("");
+        writer.close();
+
+        for (int i = 0; i < fileContents.size() - 1; i++) {
+            write(fileContents.get(i));
+        }
+
+    }
+
+    public static void delete(String text) throws FileNotFoundException {
+        for (int i = 0; i < fileContents.size() - 1; i = i + 4) {
+            if (fileContents.get(i + 2).equals(text)) {
+                for (int x = 0; x < 4; x++) {
+                    fileContents.remove(i);
+                }
+                break;
+            }
+        }
+
+        PrintWriter writer = new PrintWriter(fileName);
+        writer.print("");
+        writer.close();
+
+        for (int i = 0; i < fileContents.size() - 1; i++) {
+            write(fileContents.get(i));
+        }
+
     }
 
     //grab the character at position "start" in the file

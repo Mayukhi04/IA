@@ -1,24 +1,8 @@
-24/06/22
-11:12
-computer science
-lesson
-28/05/22
-12:35
-lunch
-#
-28/06/22
-09:37
-event
-this should definitely work
-08/07/22
-10:46
-event check 2
-appear
-09/07/22
-10:46
-fdgjsfgjds
-appear
-12/07/22
-11:34
+13/07/22
+00:34
 new event
-notes
+this is a new event;)
+09/07/22
+#
+better title
+#
