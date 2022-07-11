@@ -21,7 +21,7 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
     JTextField entry = new JTextField();
 
     public EntryMenu() {
-        entryFrame.setPreferredSize(new Dimension(300, 250));
+        entryFrame.setPreferredSize(new Dimension(300, 280));
         setLayout(null);
         entryFrame.pack();
         entryFrame.setVisible(true);
@@ -44,10 +44,15 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
         button2.addActionListener(this);
         entryFrame.add(button2);
 
-        JButton button3 = new JButton("Main menu");
+        JButton button3 = new JButton("Edit or delete an entry");
         button3.setBounds(0, 140, 200, 40);
         button3.addActionListener(this);
         entryFrame.add(button3);
+
+        JButton button4 = new JButton("Main menu");
+        button4.setBounds(0, 190, 200, 40);
+        button4.addActionListener(this);
+        entryFrame.add(button4);
 
     }
 
@@ -93,28 +98,11 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
 
     public void createEntry() {
         String[] entryDetails = new String[4];
-
-        Date d = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
-        String currentDate = formatter.format(d);
-
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
-        LocalDateTime now = LocalDateTime.now();
-        String currentTime = dtf.format(now);
-
-        entryDetails[0] = currentDate;
-        entryDetails[1] = currentTime;
         entryDetails[2] = mood.getText();
         entryDetails[3] = entry.getText();
 
-        for (int i = 0; i < 4; i++) {
-            if (entryDetails[i].equals("")) {
-                File.write("#");
-            } else {
-                File.write(entryDetails[i]);
-            }
-        }
-
+        Entry e = new Entry(entryDetails);
+        e.create();
     }
 
     public void viewEntries() {

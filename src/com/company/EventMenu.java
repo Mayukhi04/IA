@@ -15,6 +15,7 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
     // canvas for other GUI widgets
     JFrame eventFrame = new JFrame("Event Menu");
     JFrame createEventFrame = new JFrame("Create New Event");
+    JFrame editEventsFrame = new JFrame("Edit/Delete Events");
     JFrame viewEventsFrame = new JFrame("View Events");
     File eventFile = new File("events.txt");
 
@@ -26,7 +27,7 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
     JTextField notes = new JTextField();
 
     public EventMenu() {
-        eventFrame.setPreferredSize(new Dimension(300, 250));
+        eventFrame.setPreferredSize(new Dimension(300, 280));
         setLayout(null);
         eventFrame.pack();
         eventFrame.setVisible(true);
@@ -49,10 +50,15 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         button2.addActionListener(this);
         eventFrame.getContentPane().add(button2);
 
-        JButton button3 = new JButton("Main menu");
+        JButton button3 = new JButton("Edit or delete an event");
         button3.setBounds(0, 140, 200, 40);
         button3.addActionListener(this);
-        eventFrame.getContentPane().add(button3);
+        eventFrame.add(button3);
+
+        JButton button4 = new JButton("Main menu");
+        button4.setBounds(0, 190, 200, 40);
+        button4.addActionListener(this);
+        eventFrame.getContentPane().add(button4);
 
     }
 
@@ -112,20 +118,13 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
 
     public void createEvent() {
         String[]eventDetails = new String[4];
-
         eventDetails[0] = date.getText();
         eventDetails[1] = time.getText();
         eventDetails[2] = title.getText();
         eventDetails[3] = notes.getText();
 
-        for (int i = 0; i < 4; i++) {
-            if (eventDetails[i].equals("")) {
-                File.write("#");
-            } else {
-                File.write(eventDetails[i]);
-            }
-        }
-
+        Event e = new Event(eventDetails);
+        e.create();
     }
 
     public void viewEvents() {
@@ -251,6 +250,36 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         }
     }
 
+    public void editEvent() {
+        editEventsFrame.setPreferredSize(new Dimension(400, 300));
+        setLayout(null);
+        editEventsFrame.pack();
+        editEventsFrame.setVisible(true);
+        editEventsFrame.setLayout(null);
+
+        JLabel heading = new JLabel("Edit or delete an event");
+        JLabel underline = new JLabel("--------------------------------");
+        heading.setBounds(0, 0, 200, 40);
+        underline.setBounds(0, 5, 200, 40);
+        editEventsFrame.add(heading);
+        editEventsFrame.add(underline);
+
+        JLabel name = new JLabel("Event name:");
+        name.setBounds(0,40, 75, 40);
+        editEventsFrame.getContentPane().add(name);
+
+        JTextField eventName = new JTextField();
+        eventName.setBounds(80,45, 150, 30);
+        eventName.getDocument().addDocumentListener(this);
+        editEventsFrame.add(eventName);
+
+        JButton m = new JButton("Return to menu");
+        m.setBounds(0, 200, 125, 40);
+        m.addActionListener(this);
+        editEventsFrame.add(m);
+
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         eventFrame.setVisible(false);
@@ -263,6 +292,10 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
             } catch (ParseException ex) {
                 ex.printStackTrace();
             }
+        } else if (e.getActionCommand().equals("Edit or delete an event")) {
+            eventFrame.setVisible(false);
+            editEventsFrame.setVisible(true);
+            editEvent();
         } else if (e.getActionCommand().equals("Main menu")) {
             eventFrame.setVisible(false);
         } else if (e.getActionCommand().equals("Create event")) {
@@ -274,6 +307,7 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
             eventFrame.setVisible(true);
         } else if (e.getActionCommand().equals("Return to menu")) {
             viewEventsFrame.setVisible(false);
+            editEventsFrame.setVisible(false);
             eventFrame.setVisible(true);
         } else if (e.getActionCommand().equals("All")) {
             eventStatus = "all";
