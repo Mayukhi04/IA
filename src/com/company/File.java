@@ -13,12 +13,11 @@ class File {
         readFile();
     }
 
-    //read the entire file
+    //read entire file
     public void readFile() {
         try {
             FileReader fr = new FileReader(fileName);
             BufferedReader br = new BufferedReader(fr);
-            String line = "";
             fileContents.clear();
 
             counter = 0;
@@ -37,16 +36,12 @@ class File {
         }
     }
 
-    //read a specific line from a file
+    //read a specific line from file
     public String readFileLine(int line) {
         return fileContents.get(line);
     }
 
-    public int Length() {
-        return counter;
-    }
-
-    //write to the file
+    //write to file
     public static void write(String text) {
         try (
                 FileWriter fw = new FileWriter(fileName, true);
@@ -60,6 +55,12 @@ class File {
         }
     }
 
+    //returns length of file
+    public int Length() {
+        return counter;
+    }
+
+    //overwrites part of file
     public static void update(String text, String[] details) throws FileNotFoundException {
         int index = 0;
 
@@ -89,6 +90,7 @@ class File {
 
     }
 
+    //deletes one entry/event from either file
     public static void delete(String text) throws FileNotFoundException {
         for (int i = 0; i < fileContents.size() - 1; i = i + 4) {
             if (fileContents.get(i + 2).equals(text)) {
@@ -109,14 +111,4 @@ class File {
 
     }
 
-    //grab the character at position "start" in the file
-    public static void randomRead(String filename, int start) {
-        try (RandomAccessFile rf = new RandomAccessFile(filename,"rws")) {
-            rf.seek(start);
-            char letter = (char)rf.read();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

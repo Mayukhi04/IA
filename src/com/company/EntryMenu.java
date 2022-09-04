@@ -5,26 +5,20 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.time.format.DateTimeFormatter;
-import java.time.LocalDateTime;
+import java.text.ParseException;
 
 public class EntryMenu extends JPanel implements ActionListener, DocumentListener {
-    // canvas for other GUI widgets
     JFrame entryFrame = new JFrame("Entry Menu");
-    JFrame createEntryFrame = new JFrame("Create Entry");
-    JFrame editEntriesFrame = new JFrame("Edit/Delete Entries");
+    JFrame writeEntryFrame = new JFrame("Create Entry");
     JFrame viewEntriesFrame = new JFrame("View Entries");
 
     File entryFile = new File("entries.txt");
     JTextField mood = new JTextField();
     JTextField entry = new JTextField();
-    JTextField entryName = new JTextField();
 
+    //Entry menu GUI
     public EntryMenu() {
         entryFrame.setPreferredSize(new Dimension(300, 230));
-        setLayout(null);
         entryFrame.pack();
         entryFrame.setVisible(true);
         entryFrame.setLayout(null);
@@ -53,46 +47,47 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
 
     }
 
-    public void createEntryMenu() {
-        createEntryFrame.setPreferredSize(new Dimension(400, 300));
-        setLayout(null);
-        createEntryFrame.pack();
-        createEntryFrame.setVisible(true);
-        createEntryFrame.setLayout(null);
+    //write entry menu GUI
+    public void writeEntryMenu() {
+        writeEntryFrame.setPreferredSize(new Dimension(400, 300));
+        writeEntryFrame.pack();
+        writeEntryFrame.setVisible(true);
+        writeEntryFrame.setLayout(null);
 
         JLabel heading = new JLabel("Write an entry");
         JLabel underline = new JLabel("--------------------");
         heading.setBounds(0, 0, 200, 40);
         underline.setBounds(0, 5, 200, 40);
-        createEntryFrame.add(heading);
-        createEntryFrame.add(underline);
+        writeEntryFrame.add(heading);
+        writeEntryFrame.add(underline);
 
         JLabel label1 = new JLabel("Mood: ");
         label1.setBounds(0,40, 50, 40);
-        createEntryFrame.add(label1);
+        writeEntryFrame.add(label1);
         mood.setBounds(40,45, 200, 30);
         mood.getDocument().addDocumentListener(this);
-        createEntryFrame.add(mood);
+        writeEntryFrame.add(mood);
 
         JLabel label2 = new JLabel("Entry: ");
         label2.setBounds(0,85, 50, 40);
-        createEntryFrame.add(label2);
+        writeEntryFrame.add(label2);
         entry.setBounds(40,90, 200, 150);
         entry.getDocument().addDocumentListener(this);
-        createEntryFrame.add(entry);
+        writeEntryFrame.add(entry);
 
         JButton create = new JButton ("Create entry");
         create.setBounds(250, 95, 125, 30);
         create.addActionListener(this);
-        createEntryFrame.add(create);
+        writeEntryFrame.add(create);
 
         JButton cancel = new JButton ("Cancel");
         cancel.setBounds(250,135, 125, 30);
         cancel.addActionListener(this);
-        createEntryFrame.add(cancel);
+        writeEntryFrame.add(cancel);
 
     }
 
+    //creates entry
     public void createEntry() {
         String[] entryDetails = new String[4];
         entryDetails[2] = mood.getText();
@@ -102,9 +97,9 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
         e.create(entryDetails);
     }
 
-    public void viewEntries() {
+    //view entries menu GUI
+    public void viewEntriesMenu() {
         viewEntriesFrame.setPreferredSize(new Dimension(500, 350));
-        setLayout(null);
         viewEntriesFrame.pack();
         viewEntriesFrame.setVisible(true);
         viewEntriesFrame.setLayout(null);
@@ -139,6 +134,7 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
 
     }
 
+    //displays all written entries
     public void displayEntries() {
         entryFile.readFile();
 
@@ -176,18 +172,23 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
     public void actionPerformed(ActionEvent e) {
         entryFrame.setVisible(false);
         if (e.getActionCommand().equals("Write a new entry")) {
-            createEntryMenu();
+            writeEntryMenu();
         } else if (e.getActionCommand().equals("View previous entries")) {
-            viewEntries();
+            viewEntriesMenu();
             displayEntries();
         } else if (e.getActionCommand().equals("Main menu")) {
-            entryFrame.setVisible(false);
+            entryFrame.dispose();
+            try {
+                MainMenu menu = new MainMenu();
+            } catch (ParseException ex) {
+                throw new RuntimeException(ex);
+            }
         } else if (e.getActionCommand().equals("Create entry")) {
             createEntry();
-            createEntryFrame.setVisible(false);
+            writeEntryFrame.setVisible(false);
             entryFrame.setVisible(true);
         } else if (e.getActionCommand().equals("Cancel")) {
-            createEntryFrame.setVisible(false);
+            writeEntryFrame.setVisible(false);
             entryFrame.setVisible(true);
         } else if (e.getActionCommand().equals("Return to menu")) {
             viewEntriesFrame.setVisible(false);
@@ -196,19 +197,13 @@ public class EntryMenu extends JPanel implements ActionListener, DocumentListene
     }
 
     @Override
-    public void insertUpdate(DocumentEvent e) {
-        System.out.println("insert");
-    }
+    public void insertUpdate(DocumentEvent e) {}
 
     @Override
-    public void removeUpdate(DocumentEvent e) {
-        System.out.println("removed");
-    }
+    public void removeUpdate(DocumentEvent e) {}
 
     @Override
-    public void changedUpdate(DocumentEvent e) {
-        System.out.println("changed");
-    }
+    public void changedUpdate(DocumentEvent e) {}
 
 }
 

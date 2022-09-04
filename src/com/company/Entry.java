@@ -1,5 +1,4 @@
 package com.company;
-
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -8,10 +7,9 @@ import java.util.Date;
 public class Entry {
     String[] entryDetails;
 
-    public Entry() {
+    public Entry() {}
 
-    }
-
+    //creates entry written by user
     public void create(String[] d) {
         File eventFile = new File("entries.txt");
         entryDetails = d;
@@ -34,18 +32,6 @@ public class Entry {
                 File.write(entryDetails[i]);
             }
         }
-    }
-
-    public void delete(String entryName) {
-
-    }
-
-    public void respond(int num) {
-        System.out.println("");
-    }
-
-    public void respond(String mood) {
-        System.out.println("");
     }
 
 }

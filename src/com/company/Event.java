@@ -1,15 +1,13 @@
 package com.company;
-
 import java.io.FileNotFoundException;
 
 public class Event {
     String[] eventDetails;
     File eventFile = new File("events.txt");
 
-    public Event() {
+    public Event() {}
 
-    }
-
+    //creates an event
     public void create(String[] d) {
         eventDetails = d;
 
@@ -22,13 +20,14 @@ public class Event {
         }
     }
 
+    //updates an event
     public void updateEvent(String name, String[] d) throws FileNotFoundException {
         eventDetails = d;
         File.update(name, d);
     }
 
+    //deletes an event
     public void deleteEvent(String name) throws FileNotFoundException {
-        System.out.println(name);
         File.delete(name);
     }
 
