@@ -171,6 +171,9 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
 
     //edit event menu GUI
     public void editEventMenu() {
+        Event e = new Event();
+        e.validate(eventName.getText());
+
         editEventFrame.setPreferredSize(new Dimension(400, 300));
         editEventFrame.pack();
         editEventFrame.setVisible(true);

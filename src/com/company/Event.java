@@ -20,6 +20,10 @@ public class Event {
         }
     }
 
+    public void validate(String name) {
+
+    }
+
     //updates an event
     public void updateEvent(String name, String[] d) throws FileNotFoundException {
         eventDetails = d;

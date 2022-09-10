@@ -5,7 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class MainMenu extends JPanel implements ActionListener{
     JFrame frame = new JFrame("Main Menu");
@@ -81,25 +83,33 @@ public class MainMenu extends JPanel implements ActionListener{
         File eventFile = new File("events.txt");
         eventFile.readFile();
 
+        Date currentDate = new Date();
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(currentDate);
+        cal.add(Calendar.DATE, 7);
+
+        Date upcomingDate = cal.getTime();
+
         int length = eventFile.Length();
         int eventCounter = 0;
         boolean upcomingEvent = false;
 
         for (int i = 0; i < (length / 4); i++) {
             if (!eventFile.readFileLine(eventCounter).equals("#")) {
-                if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).equals(new Date())) {
-                    if (new SimpleDateFormat("HH:mm").parse(eventFile.readFileLine(eventCounter + 1)).before(new Date())) {
+                if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).equals(currentDate)) {
+                    if (new SimpleDateFormat("HH:mm").parse(eventFile.readFileLine(eventCounter + 1)).before(currentDate)) {
                         if (eventCounter + 4 != length) {
                             eventCounter = eventCounter + 4;
                         }
                         continue;
                     }
-                } else if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).before(new Date())) {
+                } else if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).before(currentDate)) {
                     if (eventCounter + 4 != length) {
                         eventCounter = eventCounter + 4;
                     }
                     continue;
-                } else {
+                } else if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).before(upcomingDate)) {
                     String eventName;
                     if (eventFile.readFileLine(eventCounter + 2).equals("#")) {
                         eventName = "Untitled event";
@@ -120,8 +130,8 @@ public class MainMenu extends JPanel implements ActionListener{
                     upcomingEvent = true;
                 }
 
-                if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).equals(new Date())) {
-                    if (new SimpleDateFormat("HH:mm").parse(eventFile.readFileLine(eventCounter + 1)).before(new Date())) {
+                if (new SimpleDateFormat("dd/MM/yy").parse(eventFile.readFileLine(eventCounter)).equals(currentDate)) {
+                    if (new SimpleDateFormat("HH:mm").parse(eventFile.readFileLine(eventCounter + 1)).before(currentDate)) {
                         if (eventCounter + 4 != length) {
                             eventCounter = eventCounter + 4;
                         }
