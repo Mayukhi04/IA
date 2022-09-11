@@ -20,14 +20,36 @@ public class Event {
         }
     }
 
-    public void validate(String name) {
+    public boolean validate(String name) {
+        int counter = 0;
 
+        if (name.equals("")) {
+            name = "#";
+        }
+
+        while (eventFile.readFileLine(counter) != null) {
+            if (eventFile.readFileLine(counter).equals(name)) {
+                return true;
+            }
+            counter ++;
+        }
+
+        return false;
     }
 
     //updates an event
     public void updateEvent(String name, String[] d) throws FileNotFoundException {
         eventDetails = d;
-        File.update(name, d);
+
+        if (d[2].equals("")) {
+            eventDetails[2] = "#";
+        }
+
+        if (name.equals("")) {
+            File.update("#", d);
+        } else {
+            File.update(name, d);
+        }
     }
 
     //deletes an event

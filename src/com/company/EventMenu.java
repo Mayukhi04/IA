@@ -171,9 +171,6 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
 
     //edit event menu GUI
     public void editEventMenu() {
-        Event e = new Event();
-        e.validate(eventName.getText());
-
         editEventFrame.setPreferredSize(new Dimension(400, 300));
         editEventFrame.pack();
         editEventFrame.setVisible(true);
@@ -186,43 +183,60 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
         editEventFrame.getContentPane().add(heading);
         editEventFrame.getContentPane().add(underline);
 
-        JLabel label1 = new JLabel("Title: ");
-        label1.setBounds(0,40, 50, 40);
-        editEventFrame.getContentPane().add(label1);
-        title.setBounds(40,45, 200, 30);
-        title.getDocument().addDocumentListener(this);
-        editEventFrame.getContentPane().add(title);
+        Event e = new Event();
 
-        JLabel label2 = new JLabel("Date: ");
-        label2.setBounds(0,85, 50, 40);
-        editEventFrame.getContentPane().add(label2);
-        date.setBounds(40,90, 80, 30);
-        date.getDocument().addDocumentListener(this);
-        editEventFrame.getContentPane().add(date);
+        if (e.validate(eventName.getText())) {
 
-        JLabel label3 = new JLabel("Time: ");
-        label3.setBounds(125,85, 50, 40);
-        editEventFrame.getContentPane().add(label3);
-        time.setBounds(160,90, 80, 30);
-        time.getDocument().addDocumentListener(this);
-        editEventFrame.getContentPane().add(time);
+            JLabel label1 = new JLabel("Title: ");
+            label1.setBounds(0,40, 50, 40);
+            editEventFrame.getContentPane().add(label1);
+            title.setBounds(40,45, 200, 30);
+            title.getDocument().addDocumentListener(this);
+            editEventFrame.getContentPane().add(title);
 
-        JLabel label4 = new JLabel("Notes: ");
-        label4.setBounds(0,130, 50, 40);
-        editEventFrame.getContentPane().add(label4);
-        notes.setBounds(40,135, 200, 80);
-        notes.getDocument().addDocumentListener(this);
-        editEventFrame.getContentPane().add(notes);
+            JLabel label2 = new JLabel("Date: ");
+            label2.setBounds(0,85, 50, 40);
+            editEventFrame.getContentPane().add(label2);
+            date.setBounds(40,90, 80, 30);
+            date.getDocument().addDocumentListener(this);
+            editEventFrame.getContentPane().add(date);
 
-        JButton create = new JButton ("Update event");
-        create.setBounds(250, 90, 125, 30);
-        create.addActionListener(this);
-        editEventFrame.getContentPane().add(create);
+            JLabel label3 = new JLabel("Time: ");
+            label3.setBounds(125,85, 50, 40);
+            editEventFrame.getContentPane().add(label3);
+            time.setBounds(160,90, 80, 30);
+            time.getDocument().addDocumentListener(this);
+            editEventFrame.getContentPane().add(time);
 
-        JButton cancel = new JButton ("Cancel");
-        cancel.setBounds(250,135, 125, 30);
-        cancel.addActionListener(this);
-        editEventFrame.getContentPane().add(cancel);
+            JLabel label4 = new JLabel("Notes: ");
+            label4.setBounds(0,130, 50, 40);
+            editEventFrame.getContentPane().add(label4);
+            notes.setBounds(40,135, 200, 80);
+            notes.getDocument().addDocumentListener(this);
+            editEventFrame.getContentPane().add(notes);
+
+            JButton create = new JButton ("Update event");
+            create.setBounds(250, 90, 125, 30);
+            create.addActionListener(this);
+            editEventFrame.getContentPane().add(create);
+
+            JButton cancel = new JButton ("Cancel");
+            cancel.setBounds(250,135, 125, 30);
+            cancel.addActionListener(this);
+            editEventFrame.getContentPane().add(cancel);
+
+        } else {
+            editEventFrame.setSize(new Dimension(250, 175));
+
+            JLabel label1 = new JLabel("Event does not exist");
+            label1.setBounds(0,40, 150, 40);
+            editEventFrame.getContentPane().add(label1);
+
+            JButton menu = new JButton ("Return to menu");
+            menu.setBounds(100, 90, 125, 30);
+            menu.addActionListener(this);
+            editEventFrame.getContentPane().add(menu);
+        }
 
     }
 
@@ -240,12 +254,38 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
 
     //deletes event chosen by user
     public void deleteEvent() {
-        Event myEvent = new Event();
+        Event e = new Event();
 
-        try {
-            myEvent.deleteEvent(eventName.getText());
-        } catch (FileNotFoundException ex) {
-            throw new RuntimeException(ex);
+        if (e.validate(eventName.getText())) {
+            try {
+                e.deleteEvent(eventName.getText());
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+
+            editEventFrame.setVisible(false);
+            eventFrame.setVisible(true);
+
+        } else {
+            editEventFrame.setSize(new Dimension(250, 175));
+            editEventFrame.getContentPane().removeAll();
+
+            JLabel heading = new JLabel("Delete event");
+            JLabel underline = new JLabel("------------------");
+            heading.setBounds(0, 0, 200, 40);
+            underline.setBounds(0, 5, 200, 40);
+            editEventFrame.getContentPane().add(heading);
+            editEventFrame.getContentPane().add(underline);
+
+            JLabel label1 = new JLabel("Event does not exist");
+            label1.setBounds(0,40, 150, 40);
+            editEventFrame.getContentPane().add(label1);
+
+            JButton menu = new JButton ("Return to menu");
+            menu.setBounds(100, 90, 125, 30);
+            menu.addActionListener(this);
+            editEventFrame.getContentPane().add(menu);
+
         }
     }
 
@@ -440,8 +480,6 @@ public class EventMenu extends JPanel implements ActionListener, DocumentListene
             eventFrame.setVisible(true);
         } else if (e.getActionCommand().equals("Delete")) {
             deleteEvent();
-            editEventFrame.setVisible(false);
-            eventFrame.setVisible(true);
         } else if (e.getActionCommand().equals("Return to menu")) {
             createEventFrame.setVisible(false);
             editEventFrame.setVisible(false);
